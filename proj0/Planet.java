@@ -1,8 +1,8 @@
 public class Planet {
 
     
-    public static final double G = 6.67e-11;
-    public static final String FILE_PREFIX = "images/";
+    private static final double G = 6.67e-11;
+    private static final String FILE_PREFIX = "images/";
 	public double xxPos;
 	public double yyPos;
 	public double xxVel;

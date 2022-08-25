@@ -505,6 +505,31 @@ public class ArrayDequeTest {
         printTestStatus(passed);
     }
 
+    public static void getTestD011N6() {
+        System.out.println("Running get test.");
+        System.out.println("getTestD011N6");
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+        arrayDeque.addLast(0);
+        arrayDeque.addFirst(1);
+        arrayDeque.addFirst(2);
+        arrayDeque.addFirst(3);
+        arrayDeque.get(0);
+        arrayDeque.addFirst(5);
+        arrayDeque.addLast(6);
+        arrayDeque.addLast(7);
+        arrayDeque.addFirst(8);
+        arrayDeque.addFirst(9);
+        arrayDeque.addLast(10);
+        arrayDeque.addFirst(11);
+        arrayDeque.addLast(12);
+        arrayDeque.removeFirst();
+        arrayDeque.addFirst(14);
+        arrayDeque.addFirst(15);
+        arrayDeque.addLast(16);
+        arrayDeque.get(8);
+        arrayDeque.addLast(18);
+    }
+
 
 
     public static void main(String[] args) {

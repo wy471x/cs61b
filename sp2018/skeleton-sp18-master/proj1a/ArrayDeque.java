@@ -65,7 +65,7 @@ public class ArrayDeque<T> {
         T[] newElements = (T[]) new Object[newSize];
         int newFirst = newElements.length / 2 - 1, newLast = newElements.length / 2;
         System.arraycopy(elements, first + 1, newElements, newFirst, elements.length - first - 1);
-        System.arraycopy(elements, 0, newElements, elements.length - 1, last);
+        System.arraycopy(elements, 0, newElements, newFirst + elements.length - first - 1, last);
         first = newFirst - 1;
         last = (newLast + last) % newElements.length;
         return newElements;

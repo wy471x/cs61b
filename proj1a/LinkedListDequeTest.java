@@ -253,6 +253,30 @@ public class LinkedListDequeTest {
         passed = checkSize(2, lst.size()) && passed;
         int result = lst.get(1);
         passed = checkEqual(3, result) && passed;
+
+
+        LinkedListDeque<Integer> lst2 = new LinkedListDeque<>();
+        lst2.addFirst(0);
+        passed = checkSize(1, lst2.size()) && passed;
+        lst2.addLast(1);
+        passed = checkSize(2, lst2.size()) && passed;
+        result = lst2.removeLast();
+        passed = checkSize(1, lst2.size()) && passed;
+        passed = checkEqual(1, result) && passed;
+        result = lst2.get(0);
+        passed = checkEqual(0, result);
+        result = lst2.removeFirst();
+        passed = checkSize(0, lst2.size());
+        passed = checkEqual(0, result);
+        lst2.addFirst(5);
+        passed = checkSize(1, lst2.size()) && passed;
+        result = lst2.removeFirst();
+        passed = checkSize(0, lst2.size()) && passed;
+        passed = checkEqual(5, result);
+        lst2.addLast(7);
+        passed = checkSize(1, lst2.size()) && passed;
+        result = lst2.get(0);
+        passed = checkEqual(7, result) && passed;
         printTestStatus(passed);
     }
 

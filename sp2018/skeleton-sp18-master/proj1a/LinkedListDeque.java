@@ -239,6 +239,9 @@ public class LinkedListDeque<T> {
             first = first.next;
             sentinel.next = first;
             first.prev = sentinel;
+            if (first == sentinel) {
+                last = sentinel;
+            }
             size -= 1;
             return result;
         }

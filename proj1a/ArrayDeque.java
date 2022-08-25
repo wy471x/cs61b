@@ -80,11 +80,7 @@ public class ArrayDeque<T> {
             elements = resize((int) (size * _refactor));
         }
         elements[last] = item;
-        if (last >= elements.length) {
-            last = 0;
-        } else {
-            last++;
-        }
+        last = (last + 1 + elements.length) % elements.length;
         size++;
     }
 

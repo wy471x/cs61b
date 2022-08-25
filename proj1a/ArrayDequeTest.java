@@ -122,7 +122,134 @@ public class ArrayDequeTest {
         printTestStatus(passed);
     }
 
-    public static void addGetTest() {
+    public static void addSizeTestD001() {
+
+        System.out.println("Running get test.");
+
+        System.out.println("addSizeTest001");
+
+        ArrayDeque<Integer> arrayDeque1 = new ArrayDeque<>();
+        boolean passed = checkEmpty(true, arrayDeque1.isEmpty());
+        arrayDeque1.addLast(0);
+        passed = checkSize(1, arrayDeque1.size()) && passed;
+        arrayDeque1.addFirst(1);
+        passed = checkSize(2, arrayDeque1.size()) && passed;
+        arrayDeque1.size();
+        arrayDeque1.addFirst(3);
+        passed = checkSize(3, arrayDeque1.size()) && passed;
+        arrayDeque1.addLast(4);
+        passed = checkSize(4, arrayDeque1.size()) && passed;
+        arrayDeque1.addLast(5);
+        passed = checkSize(5, arrayDeque1.size()) && passed;
+        arrayDeque1.addLast(6);
+        passed = checkSize(6, arrayDeque1.size()) && passed;
+        arrayDeque1.addFirst(7);
+        passed = checkSize(7, arrayDeque1.size()) && passed;
+        arrayDeque1.addLast(8);
+        passed = checkSize(8, arrayDeque1.size()) && passed;
+
+        printTestStatus(passed);
+
+    }
+
+    public static void addRemoveIsEmptyD004() {
+        System.out.println("Running get test.");
+
+        System.out.println("addRemoveIsEmpty004");
+
+        ArrayDeque<Integer> arrayDeque1 = new ArrayDeque<>();
+
+        arrayDeque1.addLast(0);
+        boolean passed = checkSize(1, arrayDeque1.size());
+        arrayDeque1.addLast(1);
+        passed = checkSize(2, arrayDeque1.size()) && passed;
+        arrayDeque1.addLast(2);
+        passed = checkSize(3, arrayDeque1.size()) && passed;
+        arrayDeque1.addLast(3);
+        passed = checkSize(4, arrayDeque1.size()) && passed;
+        arrayDeque1.addLast(4);
+        passed = checkSize(5, arrayDeque1.size()) && passed;
+
+        printTestStatus(passed);
+    }
+
+    public static void addLastRemoveFirstIsEmptyTestD005() {
+        System.out.println("Running get test.");
+
+        System.out.println("addLastRemoveFirstIsEmptyTest005");
+
+        ArrayDeque<Integer> arrayDeque1 = new ArrayDeque<>();
+        boolean passed = checkEmpty(true, arrayDeque1.isEmpty());
+        arrayDeque1.addLast(0);
+        passed = checkSize(1, arrayDeque1.size()) && passed;
+        int result = arrayDeque1.removeFirst();
+        passed = checkSize(0, arrayDeque1.size()) && passed;
+        passed = checkEqual(0, result);
+        arrayDeque1.addLast(2);
+        passed = checkSize(1, arrayDeque1.size()) && passed;
+        arrayDeque1.addLast(3);
+        passed = checkSize(2, arrayDeque1.size()) && passed;
+        arrayDeque1.addLast(4);
+        passed = checkSize(3, arrayDeque1.size()) && passed;
+        arrayDeque1.addLast(5);
+        passed = checkSize(4, arrayDeque1.size()) && passed;
+
+        printTestStatus(passed);
+
+    }
+
+    public static void getTestD011() {
+
+        System.out.println("Running get test.");
+
+        System.out.println("getTest011");
+
+        ArrayDeque<Integer> arrayDeque1 = new ArrayDeque<>();
+        boolean passed = checkEmpty(true, arrayDeque1.isEmpty());
+
+        arrayDeque1.addFirst(0);
+        passed = checkSize(1, arrayDeque1.size()) && passed;
+        int result = arrayDeque1.removeFirst();
+        passed = checkSize(0, arrayDeque1.size()) && passed;
+        passed = checkEqual(0, result) && passed;
+        arrayDeque1.addLast(2);
+        passed = checkSize(1, arrayDeque1.size()) && passed;
+        arrayDeque1.addFirst(3);
+        passed = checkSize(2, arrayDeque1.size()) && passed;
+        arrayDeque1.addLast(4);
+        passed = checkSize(3, arrayDeque1.size()) && passed;
+        result = arrayDeque1.removeFirst();
+        passed = checkSize(2, arrayDeque1.size()) && passed;
+        passed = checkEqual(3, result) && passed;
+        arrayDeque1.addLast(6);
+        passed = checkSize(3, arrayDeque1.size()) && passed;
+        result = arrayDeque1.removeFirst();
+        passed = checkSize(2, arrayDeque1.size()) && passed;
+        passed = checkEqual(2, result) && passed;
+        result = arrayDeque1.get(1);
+        passed = checkEqual(6, result) && passed;
+        result = arrayDeque1.get(0);
+        passed = checkEqual(4, result) && passed;
+        arrayDeque1.addLast(10);
+        passed = checkSize(3, arrayDeque1.size()) && passed;
+        arrayDeque1.addFirst(11);
+        passed = checkSize(4, arrayDeque1.size()) && passed;
+        arrayDeque1.addFirst(12);
+        passed = checkSize(5, arrayDeque1.size()) && passed;
+        result = arrayDeque1.get(3);
+        passed = checkEqual(6, result) && passed;
+        arrayDeque1.addFirst(14);
+        passed = checkSize(6, arrayDeque1.size()) && passed;
+        result = arrayDeque1.get(2);
+        passed = checkEqual(11, result) && passed;
+        result = arrayDeque1.get(0);
+        passed = checkEqual(14, result) && passed;
+        arrayDeque1.addFirst(17);
+        passed = checkSize(7, arrayDeque1.size()) && passed;
+        arrayDeque1.addLast(18);
+        passed = checkSize(8, arrayDeque1.size()) && passed;
+
+        printTestStatus(passed);
 
     }
 
@@ -131,5 +258,9 @@ public class ArrayDequeTest {
         addIsEmptySizeTest();
         addRemoveTest();
         getTest();
+        addSizeTestD001();
+        addRemoveIsEmptyD004();
+        addLastRemoveFirstIsEmptyTestD005();
+        getTestD011();
     }
 }

@@ -75,6 +75,14 @@ public class ArrayDeque<T> {
         return result;
     }
 
+    public T get(int index) {
+        if (index >= size || index < 0) {
+            return null;
+        }
+
+        return elements[(first + 1 + index) % elements.length];
+    }
+
     public void printDeque() {
         int cur = first + 1;
         while (cur != last - 1) {

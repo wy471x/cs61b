@@ -18,6 +18,15 @@ public class ArrayDequeTest {
         return true;
     }
 
+    /* Utility method for printing out empty checks. */
+    public static boolean checkEqual(int expected, int actual) {
+        if (expected != actual) {
+            System.out.println("value returned " + actual + ", but expected: " + expected);
+            return false;
+        }
+        return true;
+    }
+
     /* Prints a nice message based on whether a test passed.
      * The \n means newline. */
     public static void printTestStatus(boolean passed) {
@@ -86,9 +95,40 @@ public class ArrayDequeTest {
 //		*/
     }
 
+
+    public static void getTest() {
+
+        System.out.println("Running get test.");
+
+        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
+
+        ArrayDeque<Integer> lst = new ArrayDeque<>();
+
+        boolean passed = checkEmpty(true, lst.isEmpty());
+
+        lst.addFirst(1);
+
+        passed = checkSize(1, lst.size()) && passed;
+
+        lst.addFirst(2);
+
+        passed = checkSize(2, lst.size()) && passed;
+
+        lst.addFirst(3);
+
+        passed = checkSize(3, lst.size()) && passed;
+
+        passed = checkEqual(3, lst.get(0)) && passed;
+        passed = checkEqual(2, lst.get(1)) && passed;
+        passed = checkEqual(1, lst.get(2)) && passed;
+
+        printTestStatus(passed);
+    }
+
     public static void main(String[] args) {
         System.out.println("Running tests.\n");
         addIsEmptySizeTest();
-//        addRemoveTest();
+        addRemoveTest();
+        getTest();
     }
 }

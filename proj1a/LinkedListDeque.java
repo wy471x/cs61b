@@ -242,6 +242,9 @@ public class LinkedListDeque<T> {
          */
         public T removeLast() {
             T result = (T) last.item;
+            if (first == last) {
+                first = sentinel;
+            }
             last = last.prev;
             last.next = sentinel;
             sentinel.prev = last;

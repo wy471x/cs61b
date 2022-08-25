@@ -6,7 +6,7 @@ public class ArrayDeque<T> {
     /**
      * D represent default size of array.
      */
-    private final Integer D = 16;
+    private final Integer D = 8;
     /**
      * _refactor represent resize factor.
      */

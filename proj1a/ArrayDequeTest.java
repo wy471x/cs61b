@@ -122,6 +122,10 @@ public class ArrayDequeTest {
         printTestStatus(passed);
     }
 
+    public static void addGetTest() {
+
+    }
+
     public static void main(String[] args) {
         System.out.println("Running tests.\n");
         addIsEmptySizeTest();

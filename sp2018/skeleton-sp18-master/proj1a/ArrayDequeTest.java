@@ -510,24 +510,45 @@ public class ArrayDequeTest {
         System.out.println("getTestD011N6");
         ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
         arrayDeque.addLast(0);
+        boolean passed = checkSize(1, arrayDeque.size());
         arrayDeque.addFirst(1);
+        passed = checkSize(2, arrayDeque.size()) && passed;
         arrayDeque.addFirst(2);
+        passed = checkSize(3, arrayDeque.size()) && passed;
         arrayDeque.addFirst(3);
-        arrayDeque.get(0);
+        passed = checkSize(4, arrayDeque.size()) && passed;
+        int result = arrayDeque.get(0);
+        passed = checkEqual(3, result) && passed;
         arrayDeque.addFirst(5);
+        passed = checkSize(5, arrayDeque.size()) && passed;
         arrayDeque.addLast(6);
+        passed = checkSize(6, arrayDeque.size()) && passed;
         arrayDeque.addLast(7);
+        passed = checkSize(7, arrayDeque.size()) && passed;
         arrayDeque.addFirst(8);
+        passed = checkSize(8, arrayDeque.size()) && passed;
         arrayDeque.addFirst(9);
+        passed = checkSize(9, arrayDeque.size()) && passed;
         arrayDeque.addLast(10);
+        passed = checkSize(10, arrayDeque.size()) && passed;
         arrayDeque.addFirst(11);
+        passed = checkSize(11, arrayDeque.size()) && passed;
         arrayDeque.addLast(12);
-        arrayDeque.removeFirst();
+        passed = checkSize(12, arrayDeque.size()) && passed;
+        result = arrayDeque.removeFirst();
+        passed = checkSize(11, arrayDeque.size()) && passed;
+        passed = checkEqual(11, result) && passed;
         arrayDeque.addFirst(14);
+        passed = checkSize(12, arrayDeque.size()) && passed;
         arrayDeque.addFirst(15);
+        passed = checkSize(13, arrayDeque.size()) && passed;
         arrayDeque.addLast(16);
-        arrayDeque.get(8);
+        passed = checkSize(14, arrayDeque.size()) && passed;
+        result = arrayDeque.get(8);
+        passed = checkEqual(0, result) && passed;
         arrayDeque.addLast(18);
+        passed = checkSize(15, arrayDeque.size()) && passed;
+        printTestStatus(passed);
     }
 
 
@@ -546,5 +567,6 @@ public class ArrayDequeTest {
         getTestD011N3();
         getTestD011N4();
         getTestD011N5();
+        getTestD011N6(); //  11|   15 14 9 8 5 3 2 1 0 6 7 10 12 16 18
     }
 }

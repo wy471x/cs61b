@@ -52,11 +52,7 @@ public class ArrayDeque<T> {
             elements = resize((int) (size * _refactor));
         }
         elements[first] = item;
-        if (first <= 0) {
-            first = elements.length - 1;
-        } else {
-            first--;
-        }
+        first = (first - 1 + elements.length) % elements.length;
         size++;
     }
 
@@ -89,16 +85,11 @@ public class ArrayDeque<T> {
      * @return
      */
     public T removeFirst() {
-        if (size == 0) {
+        if (size <= 0) {
             return null;
         }
 
-        T result;
-        if (first == elements.length - 1) {
-            result = elements[0];
-        } else {
-            result = elements[++first];
-        }
+        T result = elements[first = (first + 1 + elements.length) % elements.length];
         size--;
         return result;
     }
@@ -112,12 +103,7 @@ public class ArrayDeque<T> {
             return null;
         }
 
-        T result;
-        if (last == 0) {
-            result = elements[elements.length - 1];
-        } else {
-            result = elements[--last];
-        }
+        T result = elements[last = (last - 1 + elements.length) % elements.length];
         size--;
         return result;
     }

@@ -3,7 +3,8 @@ public class ArrayDequeTest {
     /* Utility method for printing out empty checks. */
     public static boolean checkEmpty(boolean expected, boolean actual) {
         if (expected != actual) {
-            System.out.println("isEmpty() returned " + actual + ", but expected: " + expected);
+            System.out.println("isEmpty() returned " + actual
+                    + ", but expected: " + expected);
             return false;
         }
         return true;
@@ -12,7 +13,8 @@ public class ArrayDequeTest {
     /* Utility method for printing out empty checks. */
     public static boolean checkSize(int expected, int actual) {
         if (expected != actual) {
-            System.out.println("size() returned " + actual + ", but expected: " + expected);
+            System.out.println("size() returned " + actual
+                    + ", but expected: " + expected);
             return false;
         }
         return true;
@@ -21,7 +23,8 @@ public class ArrayDequeTest {
     /* Utility method for printing out empty checks. */
     public static boolean checkEqual(int expected, int actual) {
         if (expected != actual) {
-            System.out.println("value returned " + actual + ", but expected: " + expected);
+            System.out.println("value returned " + actual
+                    + ", but expected: " + expected);
             return false;
         }
         return true;
@@ -37,25 +40,23 @@ public class ArrayDequeTest {
         }
     }
 
-    /** Adds a few things to the list, checking isEmpty() and size() are correct,
+    /** Adds a few things to the list,
+     * checking isEmpty() and size() are correct,
      * finally printing the results.
      *
      * && is the "and" operation. */
     public static void addIsEmptySizeTest() {
         System.out.println("Running add/isEmpty/Size test.");
-        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
-//		/*
+        System.out.println("Make sure to uncomment the lines below "
+                + "(and delete this print statement).");
+
         ArrayDeque<String> lld1 = new ArrayDeque<>();
 
         boolean passed = checkEmpty(true, lld1.isEmpty());
-//		printTestStatus(passed);
-//		return ;
+        printTestStatus(passed);
 
         lld1.addFirst("front");
 
-        // The && operator is the same as "and" in Python.
-        // It's a binary operator that returns true if both arguments true, and false otherwise.
-        passed = checkSize(1, lld1.size()) && passed;
         passed = checkEmpty(false, lld1.isEmpty()) && passed;
 
         lld1.addLast("middle");
@@ -69,30 +70,26 @@ public class ArrayDequeTest {
         lld1.printDeque();
 
         printTestStatus(passed);
-//		*/
     }
 
-    /** Adds an item, then removes an item, and ensures that dll is empty afterwards. */
+    /** Adds an item, then removes an item,
+     * and ensures that dll is empty afterwards. */
     public static void addRemoveTest() {
 
         System.out.println("Running add/remove test.");
 
-        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
-//		/*
+        System.out.println("Make sure to uncomment the lines below "
+                + "(and delete this print statement).");
         ArrayDeque<Integer> lld1 = new ArrayDeque<>();
-        // should be empty
         boolean passed = checkEmpty(true, lld1.isEmpty());
 
         lld1.addFirst(10);
-        // should not be empty
         passed = checkEmpty(false, lld1.isEmpty()) && passed;
 
         lld1.removeFirst();
-        // should be empty
         passed = checkEmpty(true, lld1.isEmpty()) && passed;
 
         printTestStatus(passed);
-//		*/
     }
 
 
@@ -100,7 +97,8 @@ public class ArrayDequeTest {
 
         System.out.println("Running get test.");
 
-        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
+        System.out.println("Make sure to uncomment the lines "
+                + "below (and delete this print statement).");
 
         ArrayDeque<Integer> lst = new ArrayDeque<>();
 

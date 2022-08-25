@@ -25,6 +25,10 @@ public class LinkedListDeque<T> {
         return (T)list.get(index);
     }
 
+    public T getRecursive(int index) {
+        return (T)list.getRecursive(index);
+    }
+
     public void printDeque() {
         LinkedList.Node sentinel = list.getSentinel(), cur = sentinel.next;
         while (cur.next != sentinel) {
@@ -138,8 +142,26 @@ public class LinkedListDeque<T> {
             int i = 0;
             while (i <= index) {
                 p = p.next;
+                i++;
             }
             return (T)p.item;
+        }
+
+        public T getRecursive(int index) {
+            if (index >= size || index < 0) {
+                return null;
+            }
+
+            Node n = sentinel.next;
+            int i = 0;
+            return helper(i, index, n);
+        }
+
+        private T helper(int cur, int index, Node n) {
+            if (cur == index) {
+                return (T)n.item;
+            }
+            return (T) helper(cur + 1, index, n.next);
         }
 
         public boolean isEmpty() {

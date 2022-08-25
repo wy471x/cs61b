@@ -77,9 +77,13 @@ public class ArrayDeque<T> {
 
     public void printDeque() {
         int cur = first + 1;
-        while (cur != last) {
+        while (cur != last - 1) {
             System.out.print(elements[cur] + " ");
-            cur = (cur + elements.length) % elements.length;
+            cur = (cur + elements.length + 1) % elements.length;
+        }
+
+        if (cur == last - 1) {
+            System.out.println(elements[cur]);
         }
     }
 

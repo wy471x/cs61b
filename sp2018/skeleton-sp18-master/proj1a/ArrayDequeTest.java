@@ -463,6 +463,49 @@ public class ArrayDequeTest {
         printTestStatus(passed);
     }
 
+    public static void getTestD011N5() {
+        System.out.println("Running get test.");
+        System.out.println("getTestD011N5");
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+        arrayDeque.addFirst(1);
+        boolean passed = checkSize(1, arrayDeque.size());
+        arrayDeque.addLast(2);
+        passed = checkSize(2, arrayDeque.size()) && passed;
+        int result = arrayDeque.removeLast();
+        passed = checkSize(1, arrayDeque.size()) && passed;
+        passed = checkEqual(2, result) && passed;
+        result = arrayDeque.get(0);
+        passed = checkEqual(1, result) && passed;
+        arrayDeque.addFirst(5);
+        passed = checkSize(2, arrayDeque.size()) && passed;
+        arrayDeque.addLast(6);
+        passed = checkSize(3, arrayDeque.size()) && passed;
+        arrayDeque.addFirst(7);
+        passed = checkSize(4, arrayDeque.size()) && passed;
+        arrayDeque.addLast(8);
+        passed = checkSize(5, arrayDeque.size()) && passed;
+        arrayDeque.addLast(9);
+        passed = checkSize(6, arrayDeque.size()) && passed;
+        result = arrayDeque.removeFirst();
+        passed = checkSize(5, arrayDeque.size()) && passed;
+        passed = checkEqual(7, result) && passed;
+        arrayDeque.addLast(11);
+        passed = checkSize(6, arrayDeque.size()) && passed;
+        result = arrayDeque.get(1);
+        passed = checkEqual(1, result) && passed;
+        arrayDeque.addFirst(13);
+        passed = checkSize(7, arrayDeque.size()) && passed;
+        arrayDeque.addFirst(14);
+        passed = checkSize(8, arrayDeque.size()) && passed;
+        arrayDeque.addFirst(15);
+        passed = checkSize(9, arrayDeque.size()) && passed;
+        result = arrayDeque.removeLast();
+        passed = checkSize(8, arrayDeque.size()) && passed;
+        passed = checkEqual(11, result) && passed;
+        printTestStatus(passed);
+    }
+
+
 
     public static void main(String[] args) {
         System.out.println("Running tests.\n");
@@ -477,5 +520,6 @@ public class ArrayDequeTest {
         getTestD011N2();
         getTestD011N3();
         getTestD011N4();
+        getTestD011N5();
     }
 }

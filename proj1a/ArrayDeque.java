@@ -63,9 +63,14 @@ public class ArrayDeque<T> {
      */
     private T[] resize(int newSize) {
         T[] newElements = (T[]) new Object[newSize];
-        int newFirst = newElements.length / 2 - 1, newLast = newElements.length / 2;
-        System.arraycopy(elements, (first + 1) % elements.length, newElements, newFirst, elements.length - (first + 1) % elements.length);
-        System.arraycopy(elements, 0, newElements, newFirst + elements.length - (first + 1) % elements.length, last);
+        int newFirst = newElements.length / 2 - 1;
+        int newLast = newElements.length / 2;
+        System.arraycopy(elements, (first + 1) % elements.length,
+                newElements, newFirst,
+                elements.length - (first + 1) % elements.length);
+        System.arraycopy(elements, 0, newElements,
+                newFirst + elements.length - (first + 1) % elements.length,
+                last);
         first = newFirst - 1;
         last = 0;
         return newElements;
@@ -93,7 +98,8 @@ public class ArrayDeque<T> {
             return null;
         }
 
-        T result = elements[first = (first + 1 + elements.length) % elements.length];
+        first = (first + 1 + elements.length) % elements.length;
+        T result = elements[first];
         size--;
         return result;
     }
@@ -107,7 +113,8 @@ public class ArrayDeque<T> {
             return null;
         }
 
-        T result = elements[last = (last - 1 + elements.length) % elements.length];
+        last = (last - 1 + elements.length) % elements.length;
+        T result = elements[last];
         size--;
         return result;
     }

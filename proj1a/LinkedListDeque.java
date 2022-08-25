@@ -220,6 +220,9 @@ public class LinkedListDeque<T> {
             last.next = node;
             last = node;
             sentinel.prev = last;
+            if (0 == size) {
+                first = node;
+            }
             size += 1;
         }
 
@@ -228,6 +231,10 @@ public class LinkedListDeque<T> {
          * @return
          */
         public T removeFirst() {
+            if (size <= 0) {
+                return null;
+            }
+
             T result = (T) first.item;
             first = first.next;
             sentinel.next = first;
@@ -241,6 +248,10 @@ public class LinkedListDeque<T> {
          * @return
          */
         public T removeLast() {
+            if (size <= 0) {
+                return null;
+            }
+
             T result = (T) last.item;
             if (first == last) {
                 first = sentinel;

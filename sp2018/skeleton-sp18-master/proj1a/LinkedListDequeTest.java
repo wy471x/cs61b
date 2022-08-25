@@ -136,6 +136,11 @@ public class LinkedListDequeTest {
     }
 
     public static void addRemoveIsEmptyTest003() {
+
+        System.out.println("Running get test.");
+
+        System.out.println("addRemoveIsEmptyTest003");
+
         LinkedListDeque<Integer> lst = new LinkedListDeque<>();
 
         boolean passed = checkEmpty(true, lst.isEmpty());
@@ -162,6 +167,11 @@ public class LinkedListDequeTest {
     }
 
     public static void addRemoveIsEmptyTest005() {
+
+        System.out.println("Running get test.");
+
+        System.out.println("addRemoveIsEmptyTest005");
+
         LinkedListDeque<Integer> lst = new LinkedListDeque<>();
         boolean passed = checkEmpty(true, lst.isEmpty());
         lst.isEmpty();
@@ -182,22 +192,55 @@ public class LinkedListDequeTest {
         lst.removeFirst();
         passed = checkSize(6, lst.size()) && passed;
 
+        LinkedListDeque<Integer> lst2 = new LinkedListDeque<>();
+        lst2.addLast(0);
+        passed = checkSize(1, lst2.size());
+        lst2.addLast(1);
+        passed = checkSize(2, lst2.size());
+        lst2.addLast(2);
+        passed = checkSize(3, lst2.size());
+        int reuslt = lst2.removeFirst();
+        passed = checkSize(2, lst2.size());
+        passed = checkEqual(0, reuslt);
+
         printTestStatus(passed);
     }
 
     public static void addRemoveIsEmptyTest006() {
+
+        System.out.println("Running get test.");
+
+        System.out.println("addRemoveIsEmptyTest006");
+
         LinkedListDeque<Integer> lst = new LinkedListDeque<>();
         boolean passed = checkEmpty(true, lst.isEmpty());
         lst.addLast(0);
         passed = checkSize(1, lst.size()) && passed;
         lst.addFirst(1);
         passed = checkSize(2, lst.size()) && passed;
-        lst.removeLast();
+        int result = lst.removeLast();
         passed = checkSize(1, lst.size()) && passed;
+        passed = checkEqual(0, result);
+
+        LinkedListDeque<Integer> lst2 = new LinkedListDeque<>();
+        lst2.isEmpty();
+        lst2.size();
+        lst2.addLast(2);
+        passed = checkSize(1, lst2.size()) && passed;
+        lst2.addFirst(3);
+        passed = checkSize(2, lst2.size()) && passed;
+        result = lst2.removeLast();
+        passed = checkSize(1, lst2.size()) && passed;
+        passed = checkEqual(2, result);
+
         printTestStatus(passed);
     }
 
     public static void getIterative010() {
+        System.out.println("Running get test.");
+
+        System.out.println("getIterative010");
+
         LinkedListDeque<Integer> lst = new LinkedListDeque<>();
         boolean passed = checkEmpty(true, lst.isEmpty());
         lst.addFirst(0);
@@ -214,6 +257,10 @@ public class LinkedListDequeTest {
     }
 
     public static void getIterative011() {
+        System.out.println("Running get test.");
+
+        System.out.println("getIterative011");
+
         LinkedListDeque<Integer> lst = new LinkedListDeque<>();
         boolean passed = checkEmpty(true, lst.isEmpty());
         lst.addLast(1);
@@ -228,6 +275,18 @@ public class LinkedListDequeTest {
         passed = checkSize(1, lst.size()) && passed;
         lst.removeFirst();
         passed = checkSize(0, lst.size()) && passed;
+
+
+        LinkedListDeque<Integer> lst2 = new LinkedListDeque<>();
+        lst2.addLast(0);
+        passed = checkSize(1, lst2.size()) && passed;
+        lst2.addFirst(1);
+        passed = checkSize(2, lst2.size()) && passed;
+        int result = lst2.getRecursive(0);
+        passed = checkEqual(1, result);
+        result = lst2.removeLast();
+        passed = checkSize(1, lst2.size()) && passed;
+        passed = checkEqual(0, result);
         printTestStatus(passed);
     }
     public static void main(String[] args) {

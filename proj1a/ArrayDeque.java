@@ -8,9 +8,9 @@ public class ArrayDeque<T> {
      */
     private final Integer D = 8;
     /**
-     * _refactor represent resize factor.
+     * Refactor represent resize factor.
      */
-    private final Integer _refactor = 2;
+    private final Integer refactor = 2;
     /**
      * elements represent array.
      */
@@ -22,7 +22,7 @@ public class ArrayDeque<T> {
     /**
      * R represent usage ratio of array.
      */
-    private final int R = 0;
+    private final double R = 0.25;
     /**
      * first points to first element of deque.
      */
@@ -49,7 +49,7 @@ public class ArrayDeque<T> {
      */
     public void addFirst(T item) {
         if (size == elements.length) {
-            elements = resize(size * _refactor);
+            elements = resize(size * refactor, true);
         }
         elements[first] = item;
         first = (first - 1 + elements.length) % elements.length;
@@ -61,8 +61,32 @@ public class ArrayDeque<T> {
      * @param newSize
      * @return
      */
-    private T[] resize(int newSize) {
-        T[] newElements = (T[]) new Object[newSize];
+    private T[] resize(int newSize, boolean flag) {
+        if (flag) {
+            T[] newElements = (T[]) new Object[newSize];
+            int newFirst = newElements.length / 2 - 1;
+            int newLast = newElements.length / 2;
+            System.arraycopy(elements, (first + 1) % elements.length,
+                    newElements, newFirst,
+                    elements.length - (first + 1) % elements.length);
+            System.arraycopy(elements, 0, newElements,
+                    newFirst + elements.length - (first + 1) % elements.length,
+                    last);
+            first = newFirst - 1;
+            last = newElements.length - 1;
+            return newElements;
+        }
+
+        return create(newSize);
+    }
+
+    /**
+     * Create array object.
+     * @param len
+     * @return
+     */
+    private T[] create(int len) {
+        T[] newElements = (T[]) new Object[len];
         int newFirst = newElements.length / 2 - 1;
         int newLast = newElements.length / 2;
         System.arraycopy(elements, (first + 1) % elements.length,
@@ -82,7 +106,7 @@ public class ArrayDeque<T> {
      */
     public void addLast(T item) {
         if (size == elements.length) {
-            elements = resize(size * _refactor);
+            elements = resize(size * refactor, true);
         }
         elements[last] = item;
         last = (last + 1 + elements.length) % elements.length;
@@ -101,6 +125,10 @@ public class ArrayDeque<T> {
         first = (first + 1 + elements.length) % elements.length;
         T result = elements[first];
         size--;
+
+        if (size / elements.length < R) {
+            elements = resize(size / 2, false);
+        }
         return result;
     }
 
@@ -116,6 +144,10 @@ public class ArrayDeque<T> {
         last = (last - 1 + elements.length) % elements.length;
         T result = elements[last];
         size--;
+
+        if (size / elements.length < R) {
+            elements = resize(size / 2, false);
+        }
         return result;
     }
 

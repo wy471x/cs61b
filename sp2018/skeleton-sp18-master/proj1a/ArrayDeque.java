@@ -59,24 +59,13 @@ public class ArrayDeque<T> {
     /**
      * Resize capacity of array.
      * @param newSize
+     * @param flag
      * @return
      */
     private T[] resize(int newSize, boolean flag) {
         if (flag) {
-            T[] newElements = (T[]) new Object[newSize];
-            int newFirst = newElements.length / 2 - 1;
-            int newLast = newElements.length / 2;
-            System.arraycopy(elements, (first + 1) % elements.length,
-                    newElements, newFirst,
-                    elements.length - (first + 1) % elements.length);
-            System.arraycopy(elements, 0, newElements,
-                    newFirst + elements.length - (first + 1) % elements.length,
-                    last);
-            first = newFirst - 1;
-            last = newElements.length - 1;
-            return newElements;
+            return create(newSize);
         }
-
         return create(newSize);
     }
 
@@ -126,7 +115,8 @@ public class ArrayDeque<T> {
         T result = elements[first];
         size--;
 
-        if (size / elements.length < R) {
+        double ratio = (double) size / elements.length;
+        if (ratio < R && size > 8) {
             elements = resize(size / 2, false);
         }
         return result;
@@ -145,7 +135,8 @@ public class ArrayDeque<T> {
         T result = elements[last];
         size--;
 
-        if (size / elements.length < R) {
+        double ratio = (double) size / elements.length;
+        if (ratio < R && size > 8) {
             elements = resize(size / 2, false);
         }
         return result;

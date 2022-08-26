@@ -567,6 +567,6 @@ public class ArrayDequeTest {
         getTestD011N3();
         getTestD011N4();
         getTestD011N5();
-        getTestD011N6(); //  11|   15 14 9 8 5 3 2 1 0 6 7 10 12 16 18
+        getTestD011N6();
     }
 }

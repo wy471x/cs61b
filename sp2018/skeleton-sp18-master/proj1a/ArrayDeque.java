@@ -10,7 +10,7 @@ public class ArrayDeque<T> {
     /**
      * _refactor represent resize factor.
      */
-    private final Double _refactor = 1.75;
+    private final Integer _refactor = 2;
     /**
      * elements represent array.
      */
@@ -49,7 +49,7 @@ public class ArrayDeque<T> {
      */
     public void addFirst(T item) {
         if (size == elements.length) {
-            elements = resize((int) (size * _refactor));
+            elements = resize(size * _refactor);
         }
         elements[first] = item;
         first = (first - 1 + elements.length) % elements.length;
@@ -72,7 +72,7 @@ public class ArrayDeque<T> {
                 newFirst + elements.length - (first + 1) % elements.length,
                 last);
         first = newFirst - 1;
-        last = 0;
+        last = newElements.length - 1;
         return newElements;
     }
 
@@ -82,7 +82,7 @@ public class ArrayDeque<T> {
      */
     public void addLast(T item) {
         if (size == elements.length) {
-            elements = resize((int) (size * _refactor));
+            elements = resize(size * _refactor);
         }
         elements[last] = item;
         last = (last + 1 + elements.length) % elements.length;

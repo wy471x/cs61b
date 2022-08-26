@@ -89,6 +89,11 @@ public class ArrayDeque<T> {
         return newElements;
     }
 
+    /**
+     * Resize down array.
+     * @param len
+     * @return
+     */
     private T[] resizeDown(int len) {
         T[] newElements = (T[]) new Object[len];
         int newFirst = newElements.length / 2 - 1;

@@ -551,6 +551,33 @@ public class ArrayDequeTest {
         printTestStatus(passed);
     }
 
+    public static void resizeDownTestE002() {
+        System.out.println("Running get test.");
+        System.out.println("resizeDownTestE002");
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+
+        int i = 0;
+        boolean passed = checkEmpty(true, arrayDeque.isEmpty());
+        while (i < 32) {
+            arrayDeque.addFirst(i);
+            passed = checkSize(i + 1, arrayDeque.size()) && passed;
+            i++;
+        }
+
+        i = 0;
+        int result = 0;
+        while (i < 24) {
+            result = arrayDeque.removeLast();
+            passed = checkSize(32 - i - 1, arrayDeque.size()) && passed;
+            passed = checkEqual(i, result) && passed;
+            i++;
+        }
+        result = arrayDeque.removeLast();
+        passed = checkSize(7, arrayDeque.size()) && passed;
+        passed = checkEqual(i, result) && passed;
+        printTestStatus(passed);
+    }
+
     public static void main(String[] args) {
         System.out.println("Running tests.\n");
         addIsEmptySizeTest();
@@ -566,5 +593,6 @@ public class ArrayDequeTest {
         getTestD011N4();
         getTestD011N5();
         getTestD011N6();
+        resizeDownTestE002();
     }
 }

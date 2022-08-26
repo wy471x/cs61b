@@ -116,7 +116,7 @@ public class ArrayDeque<T> {
         size--;
 
         double ratio = (double) size / elements.length;
-        if (ratio < R && size > 8) {
+        if (ratio < R && elements.length > 16) {
             elements = resize(size / 2, false);
         }
         return result;
@@ -136,7 +136,7 @@ public class ArrayDeque<T> {
         size--;
 
         double ratio = (double) size / elements.length;
-        if (ratio < R && size > 8) {
+        if (ratio < R && elements.length > 16) {
             elements = resize(size / 2, false);
         }
         return result;

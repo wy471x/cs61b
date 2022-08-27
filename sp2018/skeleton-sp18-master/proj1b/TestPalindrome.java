@@ -3,8 +3,6 @@ import static org.junit.Assert.*;
 
 public class TestPalindrome {
     static Palindrome palindrome = new Palindrome();
-    static OffByOne offByOne = new OffByOne();
-    static OffByN offByN = new OffByN(5);
 
     @Test
     public void testWordToDeque() {
@@ -24,23 +22,22 @@ public class TestPalindrome {
         assertFalse(palindrome.isPalindrome(""));
         assertFalse(palindrome.isPalindrome(null));
         assertFalse(palindrome.isPalindrome("Aa"));
-    }
 
-    @Test
-    public void testIsPalindromeOverload() {
+        OffByOne offByOne = new OffByOne();
         assertTrue(palindrome.isPalindrome("flake", offByOne));
         assertTrue(palindrome.isPalindrome("racedbq", offByOne));
         assertFalse(palindrome.isPalindrome("", offByOne));
         assertFalse(palindrome.isPalindrome(null, offByOne));
         assertFalse(palindrome.isPalindrome("Ba", offByOne));
-    }
 
-    @Test
-    public void testIsPalindromeOffByN() {
+        OffByN offByN = new OffByN(5);
         assertTrue(palindrome.isPalindrome("ffaaa", offByN));
         assertTrue(palindrome.isPalindrome("baiedfg", offByN));
         assertFalse(palindrome.isPalindrome("", offByN));
         assertFalse(palindrome.isPalindrome(null, offByN));
         assertFalse(palindrome.isPalindrome("Fa", offByN));
+
+        OffByN offByN2 = new OffByN(7);
+        assertTrue(palindrome.isPalindrome("bibi", offByN2));
     }
 }

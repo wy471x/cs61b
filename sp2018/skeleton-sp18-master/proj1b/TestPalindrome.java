@@ -27,26 +27,6 @@ public class TestPalindrome {
     }
 
     @Test
-    public void testIsPalindromeByDeque() {
-        assertTrue(palindrome.isPalindromeByDeque("noon"));
-        assertFalse(palindrome.isPalindromeByDeque("car"));
-        assertTrue(palindrome.isPalindromeByDeque("racecar"));
-        assertFalse(palindrome.isPalindromeByDeque(""));
-        assertFalse(palindrome.isPalindromeByDeque(null));
-        assertFalse(palindrome.isPalindromeByDeque("Aa"));
-    }
-
-    @Test
-    public void testIsPalindromeRecursive() {
-        assertTrue(palindrome.isPalindromeRecursive("noon"));
-        assertFalse(palindrome.isPalindromeRecursive("car"));
-        assertTrue(palindrome.isPalindromeRecursive("racecar"));
-        assertFalse(palindrome.isPalindromeRecursive(""));
-        assertFalse(palindrome.isPalindromeRecursive(null));
-        assertFalse(palindrome.isPalindromeRecursive("Aa"));
-    }
-
-    @Test
     public void testIsPalindromeOverload() {
         assertTrue(palindrome.isPalindrome("flake", offByOne));
         assertTrue(palindrome.isPalindrome("racedbq", offByOne));

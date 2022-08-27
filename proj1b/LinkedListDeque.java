@@ -1,7 +1,7 @@
 /**
  * @author dunk
  */
-public class LinkedListDeque<T> implements Deque<T>{
+public class LinkedListDeque<T> implements Deque<T> {
     /**
      * List contained all elements.
      */

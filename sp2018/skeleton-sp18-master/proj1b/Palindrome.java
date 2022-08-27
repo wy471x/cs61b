@@ -39,7 +39,7 @@ public class Palindrome {
      * @param word
      * @return
      */
-    public boolean isPalindromeByDeque(String word) {
+    private boolean isPalindromeByDeque(String word) {
         if (word == null || word.length() == 0) {
             return false;
         }
@@ -63,7 +63,7 @@ public class Palindrome {
      * @param word
      * @return
      */
-    public boolean isPalindromeRecursive(String word) {
+    private boolean isPalindromeRecursive(String word) {
         if (word == null || word.length() == 0) {
             return false;
         }
@@ -92,16 +92,36 @@ public class Palindrome {
      * Check word if it is palindrome.
      * For example "racecar" and "noon".
      * @param word
-     * @param cc
+     * @param offByOne
      * @return
      */
-    public boolean isPalindrome(String word, CharacterComparator cc) {
+    public boolean isPalindrome(String word, OffByOne offByOne) {
         if (word == null || word.length() == 0) {
             return false;
         }
 
         for (int i = 0, j = word.length() - 1; i < j; i++, j--) {
-            if (!cc.equalChars(word.charAt(i), word.charAt(j))) {
+            if (!offByOne.equalChars(word.charAt(i), word.charAt(j))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check word if it is palindrome.
+     * For example "racecar" and "noon".
+     * @param word
+     * @param offByN
+     * @return
+     */
+    public boolean isPalindrome(String word, OffByN offByN) {
+        if (word == null || word.length() == 0) {
+            return false;
+        }
+
+        for (int i = 0, j = word.length() - 1; i < j; i++, j--) {
+            if (!offByN.equalChars(word.charAt(i), word.charAt(j))) {
                 return false;
             }
         }

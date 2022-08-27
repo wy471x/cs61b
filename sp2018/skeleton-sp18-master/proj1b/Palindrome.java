@@ -92,36 +92,16 @@ public class Palindrome {
      * Check word if it is palindrome.
      * For example "racecar" and "noon".
      * @param word
-     * @param offByOne
+     * @param cc
      * @return
      */
-    public boolean isPalindrome(String word, OffByOne offByOne) {
+    public boolean isPalindrome(String word, CharacterComparator cc) {
         if (word == null || word.length() == 0) {
             return false;
         }
 
         for (int i = 0, j = word.length() - 1; i < j; i++, j--) {
-            if (!offByOne.equalChars(word.charAt(i), word.charAt(j))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Check word if it is palindrome.
-     * For example "racecar" and "noon".
-     * @param word
-     * @param offByN
-     * @return
-     */
-    public boolean isPalindrome(String word, OffByN offByN) {
-        if (word == null || word.length() == 0) {
-            return false;
-        }
-
-        for (int i = 0, j = word.length() - 1; i < j; i++, j--) {
-            if (!offByN.equalChars(word.charAt(i), word.charAt(j))) {
+            if (!cc.equalChars(word.charAt(i), word.charAt(j))) {
                 return false;
             }
         }

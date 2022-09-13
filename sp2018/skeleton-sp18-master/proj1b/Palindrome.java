@@ -22,7 +22,7 @@ public class Palindrome {
      * @return
      */
     public boolean isPalindrome(String word) {
-        if (word == null || word.length() == 0) {
+        if (word == null) {
             return false;
         }
         for (int i = 0, j = word.length() - 1; i < j; i++, j--) {
@@ -96,7 +96,7 @@ public class Palindrome {
      * @return
      */
     public boolean isPalindrome(String word, CharacterComparator cc) {
-        if (word == null || word.length() == 0) {
+        if (word == null) {
             return false;
         }
 

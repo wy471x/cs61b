@@ -13,6 +13,4 @@ public abstract class AbstractBoundedQueue<T> implements BoundedQueue {
      * Capacity of queue.
      */
     protected int capacity;
-
-    abstract void moveTo(double deltaX, double deltaY);
 }

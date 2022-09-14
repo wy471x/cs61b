@@ -1,27 +1,33 @@
 package synthesizer;
-// TODO: Make sure to make this class a part of the synthesizer package
-// package <package name>;
-import synthesizer.AbstractBoundedQueue;
 
-//TODO: Make sure to make this class and all of its methods public
-//TODO: Make sure to make this class extend AbstractBoundedQueue<t>
+/**
+ * @author dunk
+ */
 public class ArrayRingBuffer<T> extends AbstractBoundedQueue {
-    /* Index for the next dequeue or peek. */
-    private int first;            // index for the next dequeue or peek
-    /* Index for the next enqueue. */
+    /**
+     * Index for the next dequeue or peek.
+     */
+    private int first;
+
+    /**
+     * Index for the next enqueue.
+     */
     private int last;
-    /* Array for storing the buffer data. */
+
+    /**
+     * Array for storing the buffer data.
+     */
     private T[] rb;
 
     /**
      * Create a new ArrayRingBuffer with the given capacity.
+     * @param capacity
      */
     public ArrayRingBuffer(int capacity) {
-        // TODO: Create new array with capacity elements.
-        //       first, last, and fillCount should all be set to 0.
-        //       this.capacity should be set appropriately. Note that the local variable
-        //       here shadows the field we inherit from AbstractBoundedQueue, so
-        //       you'll need to use this.capacity to set the capacity.
+        this.capacity = capacity;
+        this.first = 0;
+        this.last = 0;
+        this.rb = (T[]) new Object[capacity];
     }
 
     /**
@@ -32,41 +38,56 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue {
      */
     @Override
     public void enqueue(Object x) {
-        // TODO: Enqueue the item. Don't forget to increase fillCount and update last.
+        if (this.capacity == this.fillCount) {
+            throw new RuntimeException("Ring Buffer Overflow");
+        }
+
+        if (this.fillCount == 0) {
+            this.rb[this.last] = (T) x;
+        } else {
+            this.last = (++this.last) % this.capacity;
+            this.rb[this.last] = (T) x;
+        }
+        this.fillCount  += 1;
     }
 
     @Override
     public int capacity() {
-        return 0;
+        return this.capacity;
     }
 
     @Override
     public int fillCount() {
-        return 0;
+        return this.fillCount;
     }
 
     /**
      * Dequeue oldest item in the ring buffer. If the buffer is empty, then
      * throw new RuntimeException("Ring buffer underflow"). Exceptions
      * covered Monday.
+     *
+     * @return
      */
     public T dequeue() {
-        // TODO: Dequeue the first item. Don't forget to decrease fillCount and update
-        return null;
+        if (this.fillCount == 0) {
+            throw new RuntimeException("Ring Buffer Underflow");
+        }
+
+        T result = this.rb[this.first];
+        this.rb[this.first] = null;
+        this.first = (this.first + 1) % this.capacity;
+        this.fillCount -= 1;
+        return result;
     }
 
     /**
      * Return oldest item, but don't remove it.
      */
     public T peek() {
-        // TODO: Return the first item. None of your instance variables should change.
-        return null;
+        if (this.fillCount == 0) {
+            throw new RuntimeException("Ring Buffer Underflow");
+        }
+
+        return this.rb[this.first];
     }
-
-    @Override
-    void moveTo(double deltaX, double deltaY) {
-
-    }
-
-    // TODO: When you get to part 5, implement the needed code to support iteration.
 }

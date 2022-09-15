@@ -9,22 +9,6 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue {
      */
     private int first;
 
-    public int getFirst() {
-        return first;
-    }
-
-    public void setFirst(int first) {
-        this.first = first;
-    }
-
-    public int getLast() {
-        return last;
-    }
-
-    public void setLast(int last) {
-        this.last = last;
-    }
-
     /**
      * Index for the next enqueue.
      */
@@ -41,9 +25,10 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue {
      */
     public ArrayRingBuffer(int capacity) {
         this.capacity = capacity;
-        this.first = 0;
-        this.last = 0;
-        this.rb = (T[]) new Object[capacity];
+        first = 0;
+        last = 0;
+        fillCount = 0;
+        rb = (T[]) new Object[capacity];
     }
 
     /**
@@ -54,27 +39,23 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue {
      */
     @Override
     public void enqueue(Object x) {
-        if (this.capacity == this.fillCount) {
+        if (isFull()) {
             throw new RuntimeException("Ring Buffer Overflow");
         }
 
-        if (this.fillCount == 0) {
-            this.rb[this.last] = (T) x;
-        } else {
-            this.last = (++this.last) % this.capacity;
-            this.rb[this.last] = (T) x;
-        }
-        this.fillCount  += 1;
+        rb[last] = (T) x;
+        last = (last + 1) % capacity;
+        fillCount  += 1;
     }
 
     @Override
     public int capacity() {
-        return this.capacity;
+        return capacity;
     }
 
     @Override
     public int fillCount() {
-        return this.fillCount;
+        return fillCount;
     }
 
     /**
@@ -85,14 +66,14 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue {
      * @return
      */
     public T dequeue() {
-        if (this.fillCount == 0) {
+        if (isEmpty()) {
             throw new RuntimeException("Ring Buffer Underflow");
         }
 
-        T result = this.rb[this.first];
-        this.rb[this.first] = null;
-        this.first = (this.first + 1) % this.capacity;
-        this.fillCount -= 1;
+        T result = rb[this.first];
+        rb[first] = null;
+        first = (first + 1) % capacity;
+        fillCount -= 1;
         return result;
     }
 
@@ -100,10 +81,6 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue {
      * Return oldest item, but don't remove it.
      */
     public T peek() {
-        if (this.fillCount == 0) {
-            throw new RuntimeException("Ring Buffer Underflow");
-        }
-
-        return this.rb[this.first];
+        return rb[first];
     }
 }

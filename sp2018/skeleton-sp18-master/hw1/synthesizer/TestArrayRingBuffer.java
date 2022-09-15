@@ -19,11 +19,6 @@ public class TestArrayRingBuffer {
     public void testOverflow() {
         ArrayRingBuffer<Integer> arb = new ArrayRingBuffer(10);
         assertEquals(10, arb.capacity());
-
-        for (int i = 0; i < 10; i++) {
-            arb.enqueue(i);
-            assertEquals("expected:" + i + " actual:" + arb.getLast(), String.valueOf(i), String.valueOf(arb.getLast()));
-        }
         assertEquals(10, arb.fillCount());
     }
 
@@ -31,11 +26,6 @@ public class TestArrayRingBuffer {
     public void testUnderflow() {
         ArrayRingBuffer<Integer> arb = new ArrayRingBuffer(10);
         assertEquals(10, arb.capacity());
-
-        for (int i = 0; i < 10; i++) {
-            arb.enqueue(i);
-            assertEquals("expected:" + i + " actual:" + arb.getLast(), String.valueOf(i), String.valueOf(arb.getLast()));
-        }
 
         for (int i = 0; i < 10; i++) {
             Integer dequeue = arb.dequeue();

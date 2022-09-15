@@ -40,10 +40,9 @@ public class GuitarString {
      * Pluck the guitar string by replacing the buffer with white noise.
      */
     public void pluck() {
-        if (this.buffer.isFull()) {
-            return;
+        while (!this.buffer.isFull()) {
+            this.buffer.enqueue(Math.random() - 0.5);
         }
-        this.buffer.enqueue(Math.random() - 0.5);
     }
 
     /**
@@ -52,7 +51,7 @@ public class GuitarString {
      */
     public void tic() {
         double sum = this.buffer.dequeue() + this.buffer.peek();
-        double element = (sum) / 2 * this.DECAY;
+        double element = sum / 2 * this.DECAY;
         this.buffer.enqueue(element);
     }
 

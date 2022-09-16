@@ -3,7 +3,7 @@ package synthesizer;
 /**
  * @author dunk
  */
-public interface BoundedQueue<T> {
+public interface BoundedQueue<T> extends Iterable<T> {
     /**
      * Return queue capacity.
      * @return

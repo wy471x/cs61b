@@ -55,7 +55,6 @@ public class TestGuitarString {
         // See JUnit documentation for a description of how tolerances work
         // for assertEquals(double, double)
         assertEquals(expected, s5, 0.001);
-
     }
 
     /** Calls tests for GuitarString. */

@@ -1,6 +1,7 @@
 package synthesizer;
 import org.junit.Test;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -32,6 +33,22 @@ public class TestArrayRingBuffer {
             assertEquals("expected:" + i + " actual:" + dequeue, String.valueOf(i), String.valueOf(dequeue));
         }
         assertEquals(0, arb.fillCount());
+    }
+
+    @Test
+    public void testIterator() {
+        ArrayRingBuffer<Integer> arrayRingBuffer = new ArrayRingBuffer<>(10);
+        for (int i = 0; i < 10; i++) {
+            arrayRingBuffer.enqueue(i);
+        }
+        Iterator<Integer> iterator = arrayRingBuffer.iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            int n = iterator.next();
+            System.out.println(n);
+            assertEquals("expected:" + i + " actual:" + n, String.valueOf(i), String.valueOf(n));
+            i++;
+        }
     }
 
     /** Calls tests for ArrayRingBuffer. */

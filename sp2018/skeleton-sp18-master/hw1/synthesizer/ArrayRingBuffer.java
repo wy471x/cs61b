@@ -1,5 +1,7 @@
 package synthesizer;
 
+import java.util.Iterator;
+
 /**
  * @author dunk
  */
@@ -82,5 +84,39 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue {
      */
     public T peek() {
         return rb[first];
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new ArrayRingBufferIterator();
+    }
+
+    /**
+     * Implement iterator.
+     */
+    private class ArrayRingBufferIterator implements Iterator<T> {
+        /**
+         * Pointer.
+         */
+        private int ptr;
+
+        /**
+         * Constructor.
+         */
+        ArrayRingBufferIterator() {
+            ptr = first;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public T next() {
+            T result = rb[ptr];
+            ptr = (ptr + 1) % capacity;
+            return result;
+        }
     }
 }

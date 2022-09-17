@@ -20,19 +20,12 @@ public class TestArrayRingBuffer {
     public void testOverflow() {
         ArrayRingBuffer<Integer> arb = new ArrayRingBuffer(10);
         assertEquals(10, arb.capacity());
-        assertEquals(10, arb.fillCount());
     }
 
     @Test
     public void testUnderflow() {
         ArrayRingBuffer<Integer> arb = new ArrayRingBuffer(10);
         assertEquals(10, arb.capacity());
-
-        for (int i = 0; i < 10; i++) {
-            Integer dequeue = arb.dequeue();
-            assertEquals("expected:" + i + " actual:" + dequeue, String.valueOf(i), String.valueOf(dequeue));
-        }
-        assertEquals(0, arb.fillCount());
     }
 
     @Test

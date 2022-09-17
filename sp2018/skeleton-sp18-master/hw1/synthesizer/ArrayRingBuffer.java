@@ -99,23 +99,26 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue {
          * Pointer.
          */
         private int ptr;
+        private int cnt;
 
         /**
          * Constructor.
          */
         ArrayRingBufferIterator() {
             ptr = first;
+            cnt = 0;
         }
 
         @Override
         public boolean hasNext() {
-            return false;
+            return ptr != last || cnt != fillCount();
         }
 
         @Override
         public T next() {
             T result = rb[ptr];
             ptr = (ptr + 1) % capacity;
+            cnt++;
             return result;
         }
     }

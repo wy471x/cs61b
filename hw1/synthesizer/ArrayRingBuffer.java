@@ -50,16 +50,6 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         fillCount  += 1;
     }
 
-    @Override
-    public int capacity() {
-        return capacity;
-    }
-
-    @Override
-    public int fillCount() {
-        return fillCount;
-    }
-
     /**
      * Dequeue oldest item in the ring buffer. If the buffer is empty, then
      * throw new RuntimeException("Ring buffer underflow"). Exceptions

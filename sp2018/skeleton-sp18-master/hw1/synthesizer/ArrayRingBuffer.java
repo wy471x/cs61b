@@ -5,7 +5,7 @@ import java.util.Iterator;
 /**
  * @author dunk
  */
-public class ArrayRingBuffer<T> extends AbstractBoundedQueue {
+public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /**
      * Index for the next dequeue or peek.
      */
@@ -40,12 +40,12 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue {
      * @param x
      */
     @Override
-    public void enqueue(Object x) {
+    public void enqueue(T x) {
         if (isFull()) {
             throw new RuntimeException("Ring Buffer Overflow");
         }
 
-        rb[last] = (T) x;
+        rb[last] = x;
         last = (last + 1) % capacity;
         fillCount  += 1;
     }
@@ -88,7 +88,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         return new ArrayRingBufferIterator();
     }
 

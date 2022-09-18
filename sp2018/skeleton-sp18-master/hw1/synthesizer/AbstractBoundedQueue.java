@@ -3,7 +3,7 @@ package synthesizer;
 /**
  * @author dunk
  */
-public abstract class AbstractBoundedQueue<T> implements BoundedQueue {
+public abstract class AbstractBoundedQueue<T> implements BoundedQueue<T> {
     /**
      * Count filled in queue.
      */

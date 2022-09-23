@@ -1,14 +1,44 @@
 package hw2;
 
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
+    /**
+     * N-by-N grids.
+     */
+    private int[][] grids;
+
+    /**
+     * Union-Find.
+     */
+    private WeightedQuickUnionUF unionUF;
+    private int row;
+    private int col;
+    private int virtualTopSite;
+    private int virtualDownSite;
+
     /**
      * Create N-by-N grid, with all sites initially blocked.
      * @param N
      */
     public Percolation(int N) {
+        grids = new int[N][N];
+        row = col = N;
+        unionUF = new WeightedQuickUnionUF(N * N);
+        virtualTopSite = -1;
+        virtualDownSite = N * N;
 
+        // initialize top row sites.
+        for (int i = 0; i < col; i++) {
+            unionUF.union(xyTo1D(0, i), virtualTopSite);
+        }
+
+        // initilize bottom row sites.
+        for (int i = 0; i < col; i++) {
+            unionUF.union(xyTo1D(row - 1, i), virtualDownSite);
+        }
     }
 
     /**
@@ -16,8 +46,32 @@ public class Percolation {
      * @param row
      * @param col
      */
-    public void open(int row, int col) {
+    public void open(int row, int col) throws Exception {
+        if (row >= this.row || col >= this.col) {
+            throw new Exception("out of index.");
+        }
 
+        if (grids[row][col] == 1) {
+            return;
+        }
+
+        grids[row][col] = 1;
+        // down
+        if (row + 1 < this.row && isOpen(row + 1, col)) {
+            unionUF.union(xyTo1D(row, col), xyTo1D(row + 1, col));
+        }
+        // up
+        if (row - 1 > -1 && isOpen(row - 1, col)) {
+            unionUF.union(xyTo1D(row, col), xyTo1D(row + 1, col));
+        }
+        // right
+        if (col + 1 < this.col && isOpen(row, col + 1)) {
+            unionUF.union(xyTo1D(row, col), xyTo1D(row, col + 1));
+        }
+        // left
+        if (col - 1 >  -1 && isOpen(row, col - 1)) {
+            unionUF.union(xyTo1D(row, col), xyTo1D(row, col - 1));
+        }
     }
 
     /**
@@ -27,7 +81,7 @@ public class Percolation {
      * @return
      */
     public boolean isOpen(int row, int col) {
-        return true;
+        return grids[row][col] == 1;
     }
 
     /**
@@ -45,7 +99,25 @@ public class Percolation {
      * @return
      */
     public int numberOfOpenSites() {
-        return 0;
+        int num = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grids[i][j] == 1) {
+                    num++;
+                }
+            }
+        }
+        return num;
+    }
+
+    /**
+     * Row and col map to one dimension.
+     * @param x
+     * @param y
+     * @return
+     */
+    public int xyTo1D(int x, int y) {
+        return x * row + y;
     }
 
     /**
@@ -61,7 +133,15 @@ public class Percolation {
      * @param args
      */
     public static void main(String[] args) {
-
+        int n = StdIn.readInt();
+        WeightedQuickUnionUF uf = new WeightedQuickUnionUF(n);
+        while (!StdIn.isEmpty()) {
+            int p = StdIn.readInt();
+            int q = StdIn.readInt();
+            if (uf.find(p) == uf.find(q)) continue;
+            uf.union(p, q);
+            StdOut.println(p + " " + q);
+        }
+        StdOut.println(uf.count() + " components");
     }
-
 }

@@ -4,13 +4,29 @@ import edu.princeton.cs.introcs.StdRandom;
 import edu.princeton.cs.introcs.StdStats;
 
 public class PercolationStats {
+    /**
+     * Ratio.
+     */
     private static final double RATIO = 1.96;
+
+    /**
+     * T represent computional experiment times.
+     */
     private int T;
 
+    /**
+     * Percolation factory.
+     */
     private PercolationFactory percolationFactory;
 
+    /**
+     * N represent num of grid.
+     */
     private int N;
 
+    /**
+     * Fraction of opened sites.
+     */
     private double[] x;
 
     /**
@@ -31,7 +47,7 @@ public class PercolationStats {
     /**
      * Compute fraction of opened sites in grid.
      */
-    public void compute() {
+    private void compute() {
         for (int i = 0; i < T; i++) {
             Percolation percolation = percolationFactory.make(N);
             while (!percolation.percolates()) {
@@ -79,6 +95,10 @@ public class PercolationStats {
         return mean() + RATIO * stddev() / Math.sqrt(T);
     }
 
+    /**
+     * Main.
+     * @param args
+     */
     public static void main(String[] args) {
     }
 

@@ -125,7 +125,7 @@ public class Percolation {
      * @param y
      * @return
      */
-    public int xyTo1D(int x, int y) {
+    private int xyTo1D(int x, int y) {
         return x * r + y;
     }
 

@@ -95,11 +95,4 @@ public class PercolationStats {
         return mean() + RATIO * stddev() / Math.sqrt(T);
     }
 
-    /**
-     * Main.
-     * @param args
-     */
-    public static void main(String[] args) {
-    }
-
 }

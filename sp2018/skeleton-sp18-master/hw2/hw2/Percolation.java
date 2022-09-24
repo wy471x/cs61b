@@ -142,11 +142,4 @@ public class Percolation {
         }
         return percolateFlag;
     }
-
-    /**
-     * Main.
-     * @param args
-     */
-    public static void main(String[] args) {
-    }
 }

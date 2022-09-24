@@ -1,6 +1,7 @@
 package hw2;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+import org.junit.Assert;
 
 public class Percolation {
     /**
@@ -95,7 +96,9 @@ public class Percolation {
         }
 
         for (int i = 0; i < this.c; i++) {
-            if (unionUF.connected(xyTo1D(0, i), xyTo1D(row, col))) {
+            if (isOpen(0, i)
+                    && isOpen(row, col)
+                    && unionUF.connected(xyTo1D(0, i), xyTo1D(row, col))) {
                 return true;
             }
         }
@@ -147,5 +150,29 @@ public class Percolation {
      * @param args
      */
     public static void main(String[] args) {
+        Percolation percolation = new Percolation(1);
+        Assert.assertFalse(percolation.percolates());
+        percolation.open(0, 0);
+        Assert.assertTrue(percolation.percolates());
+
+        Percolation percolation2 = new Percolation(5);
+        Assert.assertFalse(percolation2.percolates());
+        percolation2.open(0, 0);
+        Assert.assertFalse(percolation2.percolates());
+        percolation2.open(0, 1);
+        percolation2.open(0, 3);
+        percolation2.open(0, 4);
+        percolation2.open(0, 2);
+        percolation2.open(4, 4);
+        percolation2.open(4, 0);
+        Assert.assertFalse(percolation2.percolates());
+
+        Percolation percolation3 = new Percolation(3);
+        Assert.assertFalse(percolation3.percolates());
+        Assert.assertEquals(0, percolation3.numberOfOpenSites());
+        percolation3.open(2, 0);
+        percolation3.open(2, 2);
+        Assert.assertEquals(2, percolation3.numberOfOpenSites());
+        Assert.assertFalse(percolation3.isFull(0, 0));
     }
 }

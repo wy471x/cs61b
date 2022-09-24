@@ -28,8 +28,8 @@ public class Percolation {
      * @param N
      */
     public Percolation(int N) {
-        if (N < 0) {
-            throw new IndexOutOfBoundsException("out of index.");
+        if (N <= 0) {
+            throw new IllegalArgumentException("illegal argument.");
         }
         grids = new int[N][N];
         r = N;

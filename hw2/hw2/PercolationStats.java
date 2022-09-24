@@ -36,6 +36,9 @@ public class PercolationStats {
      * @param pf
      */
     public PercolationStats(int N, int T, PercolationFactory pf) {
+        if (N <= 0 || T <= 0) {
+            throw new IllegalArgumentException("illegal argument.");
+        }
         percolationFactory = pf;
         this.N = N;
         this.T = T;

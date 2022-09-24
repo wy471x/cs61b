@@ -91,7 +91,7 @@ public class PercolationStats {
      * High endpoint of 95% confidence interval.
      * @return
      */
-    public double confidenceHight() {
+    public double confidenceHigh() {
         return mean() + RATIO * stddev() / Math.sqrt(T);
     }
 

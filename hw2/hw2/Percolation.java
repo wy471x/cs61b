@@ -95,8 +95,7 @@ public class Percolation {
         }
 
         for (int i = 0; i < this.c; i++) {
-            if (xyTo1D(0, i) != xyTo1D(row, col)
-                    && unionUF.connected(xyTo1D(0, i), xyTo1D(row, col))) {
+            if (unionUF.connected(xyTo1D(0, i), xyTo1D(row, col))) {
                 return true;
             }
         }

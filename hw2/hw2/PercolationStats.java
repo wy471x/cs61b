@@ -94,5 +94,4 @@ public class PercolationStats {
     public double confidenceHigh() {
         return mean() + RATIO * stddev() / Math.sqrt(T);
     }
-
 }

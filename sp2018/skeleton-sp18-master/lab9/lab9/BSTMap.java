@@ -116,6 +116,49 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         throw new UnsupportedOperationException();
     }
 
+    private V remove(K key, Node node, Node parent) {
+        if (key == null) return null;
+
+        int cmp = key.compareTo(node.key);
+        if (cmp < 0) return remove(key, node.left, node);
+        else if (cmp > 0) return remove(key, node.right, node);
+        else {
+            Node t = node;
+            // case 1
+            if (node.right == null && node.left != null) {
+                if (node.key.compareTo(parent.key) < 0) {
+                    parent.left = node.left;
+                } else {
+                    parent.right = node.left;
+                }
+            }
+            // case 2
+            else if (node.left == null && node.right != null) {
+                if (node.key.compareTo(parent.key) < 0) {
+                    parent.left = node.right;
+                } else {
+                    parent.right = node.right;
+                }
+            }
+            // case 3
+            else {
+                Node min = min(t.right);
+
+            }
+        }
+
+        return null;
+    }
+
+    private Node min(Node node) {
+        if (node.left == null) return node;
+        else return min(node.left);
+    }
+
+    private void deleteMin(Node node) {
+
+    }
+
     /** Removes the key-value entry for the specified key only if it is
      *  currently mapped to the specified value.  Returns the VALUE removed,
      *  null on failed removal.

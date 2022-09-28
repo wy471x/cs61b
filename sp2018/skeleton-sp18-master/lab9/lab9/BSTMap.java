@@ -1,5 +1,6 @@
 package lab9;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -104,7 +105,18 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set<K> keys = new HashSet<>();
+        getAllKey(root, keys);
+        return keys;
+    }
+
+    private void getAllKey(Node node, Set<K> keys) {
+        // base case
+        if (node == null) return;
+
+        keys.add(node.key);
+        getAllKey(node.left, keys);
+        getAllKey(node.right, keys);
     }
 
     /** Removes KEY from the tree if present
@@ -113,7 +125,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      */
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        return remove(key, root, null);
     }
 
     private V remove(K key, Node node, Node parent) {
@@ -142,12 +154,13 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
             }
             // case 3
             else {
-                Node min = min(t.right);
-
+                node = min(t.right);
+                node.right = deleteMin(t.right);
+                node.left = t.left;
             }
+            size--;
+            return t.value;
         }
-
-        return null;
     }
 
     private Node min(Node node) {
@@ -155,8 +168,10 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         else return min(node.left);
     }
 
-    private void deleteMin(Node node) {
-
+    private Node deleteMin(Node node) {
+        if (node.right == null) return node.left;
+        node.right = deleteMin(node.right);
+        return node;
     }
 
     /** Removes the key-value entry for the specified key only if it is
@@ -165,11 +180,70 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      **/
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        return remove(key, value, root, null);
+    }
+
+    private V remove(K key, V value, Node node, Node parent) {
+        if (key == null) return null;
+
+        if (value.equals(node.value)) {
+            int cmp = key.compareTo(node.key);
+            if (cmp < 0) return remove(key, value, node.left, node);
+            else if (cmp > 0) return remove(key, value, node.right, node);
+            else {
+                Node t = node;
+                // case 1
+                if (node.right == null && node.left != null) {
+                    if (node.key.compareTo(parent.key) < 0) {
+                        parent.left = node.left;
+                    } else {
+                        parent.right = node.left;
+                    }
+                }
+                // case 2
+                else if (node.left == null && node.right != null) {
+                    if (node.key.compareTo(parent.key) < 0) {
+                        parent.left = node.right;
+                    } else {
+                        parent.right = node.right;
+                    }
+                }
+                // case 3
+                else {
+                    node = min(t.right);
+                    node.right = deleteMin(t.right);
+                    node.left = t.left;
+                }
+                size--;
+                return t.value;
+            }
+        }
+        return null;
     }
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return new BSTMapIterator<>();
+    }
+
+    private class BSTMapIterator<K> implements Iterator<K> {
+        int pointer;
+        K[] keyArray;
+
+
+        BSTMapIterator() {
+            pointer = 0;
+            keyArray = (K[]) keySet().toArray();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return pointer != size;
+        }
+
+        @Override
+        public K next() {
+            return keyArray[pointer++];
+        }
     }
 }

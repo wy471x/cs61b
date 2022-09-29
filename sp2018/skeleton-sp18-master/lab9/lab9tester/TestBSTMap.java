@@ -2,6 +2,7 @@ package lab9tester;
 
 import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.Test;
 import lab9.BSTMap;
 
@@ -84,6 +85,19 @@ public class TestBSTMap {
         b.put("hi", 1);
         assertTrue(b.containsKey("hi"));
         assertTrue(b.get("hi") != null);
+    }
+
+    @Test
+    public void sanityRemoveTest() {
+        BSTMap<String, String> map = new BSTMap<>();
+        map.put("1", "one");
+        map.put("2", "two");
+        map.put("3", "three");
+        map.put("4", "four");
+        map.put("5", "five");
+        map.put("6", "six");
+
+        Assert.assertEquals("three", map.remove("3"));
     }
 
     public static void main(String[] args) {

@@ -138,18 +138,26 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
             Node t = node;
             // case 1
             if (node.right == null && node.left != null) {
-                if (node.key.compareTo(parent.key) < 0) {
-                    parent.left = node.left;
+                if (parent == null) {
+                    node.left = null;
                 } else {
-                    parent.right = node.left;
+                    if (node.key.compareTo(parent.key) < 0) {
+                        parent.left = node.left;
+                    } else {
+                        parent.right = node.left;
+                    }
                 }
             }
             // case 2
             else if (node.left == null && node.right != null) {
-                if (node.key.compareTo(parent.key) < 0) {
-                    parent.left = node.right;
+                if (parent == null) {
+                    node.right = null;
                 } else {
-                    parent.right = node.right;
+                    if (node.key.compareTo(parent.key) < 0) {
+                        parent.left = node.right;
+                    } else {
+                        parent.right = node.right;
+                    }
                 }
             }
             // case 3

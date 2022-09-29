@@ -91,6 +91,7 @@ public class TestBSTMap {
     public void sanityRemoveTest() {
         BSTMap<String, String> map = new BSTMap<>();
         map.put("1", "one");
+        Assert.assertEquals("one", map.remove("1"));
         map.put("2", "two");
         map.put("3", "three");
         map.put("4", "four");

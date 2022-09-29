@@ -1,7 +1,6 @@
 package lab9;
 
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  *  A hash table-backed Map implementation. Provides amortized constant time
@@ -53,19 +52,27 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V get(K key) {
-        throw new UnsupportedOperationException();
+        return find(key, buckets[hash(key)]);
+    }
+
+    private V find(K k, ArrayMap<K, V> bin) {
+        if (bin.containsKey(k)) {
+            return bin.get(k);
+        }
+        return null;
     }
 
     /* Associates the specified value with the specified key in this map. */
     @Override
     public void put(K key, V value) {
-        throw new UnsupportedOperationException();
+        buckets[hash(key)].put(key, value);
+        size++;
     }
 
     /* Returns the number of key-value mappings in this map. */
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     //////////////// EVERYTHING BELOW THIS LINE IS OPTIONAL ////////////////
@@ -73,7 +80,14 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set<K> keys = new HashSet<>();
+        for(ArrayMap bin : buckets) {
+            Set<K> set = bin.keySet();
+            for (K key : set) {
+                keys.add(key);
+            }
+        }
+        return keys;
     }
 
     /* Removes the mapping for the specified key from this map if exists.

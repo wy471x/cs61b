@@ -184,10 +184,10 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
 
     private boolean isMinHeapOrdered(int index) {
         if (index > size) return true;
-        int left = 2 * index;
-        int right = 2 * index;
-        if (left <= index && greater(index, left)) return false;
-        if (right <= index && greater(index, right)) return false;
+        int left = leftIndex(index);
+        int right = rightIndex(index);
+        if (left <= size && greater(index, left)) return false;
+        if (right <= size && greater(index, right)) return false;
         return isMinHeapOrdered(left) && isMinHeapOrdered(right);
     }
 
@@ -257,8 +257,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         for (int i = 1; i <= size; i++) {
             if (contents[i].myItem.equals(item)) {
                 contents[i].myPriority = priority;
-                if (isMinHeap()) {
-                    swim(i);
+                if (!isMinHeap()) {
+                    sink(i);
                 }
                 return;
             }
@@ -510,6 +510,21 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         String removed = pq.removeMin();
         assertEquals(0, pq.size());
         assertEquals("c", removed);
-        removed = pq.removeMin();
+    }
+
+    @Test
+    public void testWorsenPriority() {
+        ArrayHeap<String> pq = new ArrayHeap<>();
+        pq.insert("c", 3);
+        pq.insert("i", 9);
+        pq.insert("g", 7);
+        pq.insert("a", 1);
+        pq.insert("h", 8);
+        pq.insert("e", 5);
+        pq.insert("b", 2);
+        pq.insert("d", 4);
+        assertEquals(8, pq.size());
+        pq.changePriority("a", 10);
+        assertEquals("b", pq.peek());
     }
 }

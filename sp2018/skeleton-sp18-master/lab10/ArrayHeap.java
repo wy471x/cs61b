@@ -1,4 +1,7 @@
 import org.junit.Test;
+
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.*;
 
 /**
@@ -21,6 +24,14 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         /* Even though there is an empty spot at the front, we still consider
          * the size to be 0 since nothing has been inserted yet. */
         size = 0;
+    }
+
+    /**
+     * Returns true if this priority queue is empty.
+     * @return
+     */
+    public boolean isEmpty() {
+        return size() == 0;
     }
 
     /**
@@ -105,8 +116,10 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         validateSinkSwimArg(index);
 
         /** TODO: Your code here. */
-
-        return;
+        while (index > 1 && greater(index / 2, index)) {
+            swap(index / 2, index);
+            index = index / 2;
+        }
     }
 
     /**
@@ -117,11 +130,24 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         validateSinkSwimArg(index);
 
         /** TODO: Your code here. */
-
-        return;
+        while (2 * index <= size) {
+            int i = 2 * index;
+            if (i < size && greater(i, i + 1)) i++;
+            if (!greater(index, i)) break;
+            swap(index, i);
+            index = i;
+        }
     }
 
-
+    /**
+     * Compare two elements.
+     * @param i
+     * @param j
+     * @return
+     */
+    private boolean greater(int i, int j) {
+        return contents[i].myPriority > contents[j].myPriority;
+    }
 
     /**
      * Inserts an item with the given priority value. This is enqueue, or offer.
@@ -135,6 +161,34 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         }
 
         /* TODO: Your code here! */
+        if (size == contents.length - 1) {
+            resize(contents.length * 2);
+        }
+        contents[++size] = new Node(item, priority);
+        swim(size);
+        assert isMinHeap();
+    }
+
+    private boolean isMinHeap() {
+        for (int i = 1; i <= size; i++) {
+            if (contents[i] == null) return false;
+        }
+
+        for (int i = size + 1; i < contents.length; i++) {
+            if (contents[i] != null) return false;
+        }
+
+        if (contents[0] != null) return false;
+        return isMinHeapOrdered(1);
+    }
+
+    private boolean isMinHeapOrdered(int index) {
+        if (index > size) return true;
+        int left = 2 * index;
+        int right = 2 * index;
+        if (left <= index && greater(index, left)) return false;
+        if (right <= index && greater(index, right)) return false;
+        return isMinHeapOrdered(left) && isMinHeapOrdered(right);
     }
 
     /**
@@ -144,6 +198,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     @Override
     public T peek() {
         /* TODO: Your code here! */
+        if (contents[1] != null) {
+            return contents[1].item();
+        }
         return null;
     }
 
@@ -159,7 +216,17 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     @Override
     public T removeMin() {
         /* TODO: Your code here! */
-        return null;
+        if (isEmpty()) {
+            throw new NoSuchElementException("Priority queue underflow");
+        }
+
+        Node min = contents[1];
+        swap(1, size--);
+        sink(1);
+        contents[size + 1] = null;
+        if ((size > 0) && (size == (contents.length - 1) / 4)) resize(contents.length / 2);
+        assert isMinHeap();
+        return min.item();
     }
 
     /**
@@ -182,6 +249,15 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     @Override
     public void changePriority(T item, double priority) {
         /* TODO: Your code here! */
+        for (int i = 1; i <= size; i++) {
+            if (contents[i].myItem.equals(item)) {
+                contents[i].myPriority = priority;
+                if (isMinHeap()) {
+                    swim(i);
+                }
+                return;
+            }
+        }
         return;
     }
 

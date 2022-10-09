@@ -223,9 +223,13 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         Node min = contents[1];
         swap(1, size);
         size--;
-        sink(1);
+        if (!isEmpty()) {
+            sink(1);
+        }
         contents[size + 1] = null;
-        if ((size > 0) && (size == (contents.length - 1) / 4)) resize(contents.length / 2);
+        if ((size > 0) && (size == (contents.length - 1) / 4)) {
+            resize(contents.length / 2);
+        }
         assert isMinHeap();
         return min.item();
     }
@@ -470,6 +474,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         assertEquals("g", pq.contents[7].myItem);
         assertEquals("i", pq.contents[8].myItem);
         assertEquals("d", pq.contents[9].myItem);
+        removed = pq.removeMin();
+        assertEquals("b", removed);
+        assertEquals(8, pq.size());
     }
 
     @Test
@@ -495,4 +502,14 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         }
     }
 
+    @Test
+    public void testOneThing() {
+        ArrayHeap<String> pq = new ArrayHeap<>();
+        pq.insert("c", 3);
+        assertEquals("c", pq.contents[1].myItem);
+        String removed = pq.removeMin();
+        assertEquals(0, pq.size());
+        assertEquals("c", removed);
+        removed = pq.removeMin();
+    }
 }

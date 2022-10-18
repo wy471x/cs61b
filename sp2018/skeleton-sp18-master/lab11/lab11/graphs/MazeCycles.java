@@ -13,59 +13,77 @@ public class MazeCycles extends MazeExplorer {
     public int[] edgeTo;
     public boolean[] marked;
     */
-    private int s;
-    private int t;
-    private boolean targetFound = false;
     private Maze maze;
+    private int[] nodeTo;
+    private boolean isFound = false;
 
     public MazeCycles(Maze m) {
         super(m);
         maze = m;
-        s = maze.xyTo1D(1, 1);
-        t = maze.xyTo1D(maze.N(), maze.N());
-        distTo[s] = 0;
-        edgeTo[s] = s;
+        nodeTo = new int[maze.V()];
     }
 
     @Override
     public void solve() {
         // TODO: Your code here!
-        dfs();
+        dfsRecursive(-1, 0);
+//        dfsNonRecursive(0);
     }
 
     // Helper methods go here
-    private boolean dfs() {
+    private void dfsRecursive(int u, int v) {
+        marked[v] = true;
+        announce();
+        for (int w : maze.adj(v)) {
+            if (!marked[w]) {
+                nodeTo[w] = v;
+                dfsRecursive(v, w);
+            } else if (w != u) {
+                edgeTo[w] = v;
+                announce();
+                for (int x = v; x != w; x = nodeTo[x]) {
+                    edgeTo[x] = nodeTo[x];
+                    announce();
+                }
+                isFound = true;
+            }
+            if (isFound) return;
+        }
+    }
+
+    private void dfsNonRecursive(int s) {
         Iterator<Integer>[] adj = new Iterator[maze.V()];
-        for (int i = 0; i < maze.N(); i++) {
+        for (int i = 0; i < maze.V(); i++) {
             adj[i] = maze.adj(i).iterator();
         }
 
         Stack<Integer> stack = new Stack<>();
-        marked[0] = true;
-        stack.push(0);
+        marked[s] = true;
+        stack.push(s);
+        int p = -1;
         while (!stack.isEmpty()) {
-            int e = stack.peek();
-            if (adj[e].hasNext()) {
-                int w = adj[e].next();
+            int v = stack.peek();
+            if (adj[v].hasNext()) {
+                int w = adj[v].next();
                 if (!marked[w]) {
                     marked[w] = true;
-                    edgeTo[w] = e;
-                    announce();
-                    if (w == t) {
-                        return false;
-                    }
-                    distTo[w] = distTo[e] + 1;
+                    nodeTo[w] = v;
+                    p = v;
                     stack.push(w);
-                } else {
-                    if (w != edgeTo[e]) {
-                        return true;
+                } else if (w != p) {
+                    edgeTo[w] = v;
+                    announce();
+                    for (int x = v; x != w; x = nodeTo[x]) {
+                        edgeTo[x] = nodeTo[x];
+                        announce();
                     }
+                    isFound = true;
                 }
             } else {
                 stack.pop();
             }
+            if (isFound) return;
         }
-        return false;
     }
 }
 

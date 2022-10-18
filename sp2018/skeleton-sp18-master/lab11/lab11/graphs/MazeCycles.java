@@ -26,8 +26,8 @@ public class MazeCycles extends MazeExplorer {
     @Override
     public void solve() {
         // TODO: Your code here!
-        dfsRecursive(-1, 0);
-//        dfsNonRecursive(0);
+//        dfsRecursive(-1, 0);
+        dfsNonRecursive(0);
     }
 
     // Helper methods go here

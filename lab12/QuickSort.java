@@ -49,6 +49,9 @@ public class QuickSort {
             Queue<Item> unsorted, Item pivot,
             Queue<Item> less, Queue<Item> equal, Queue<Item> greater) {
         // Your code here!
+        if (unsorted.isEmpty()) {
+            return;
+        }
         for (Item item : unsorted) {
             if (pivot.compareTo(item) == 0) {
                 equal.enqueue(item);
@@ -64,10 +67,13 @@ public class QuickSort {
     public static <Item extends Comparable> Queue<Item> quickSort(
             Queue<Item> items) {
         // Your code here!
+        if (items.isEmpty()) {
+            return new Queue<>();
+        }
         Queue<Item> less = new Queue<>(), greater = new Queue<>(), equal = new Queue<>();
         partition(items, getRandomItem(items), less, equal, greater);
-        items = catenate(greater, equal);
-        items = catenate(items, less);
+        items = catenate(quickSort(greater), equal);
+        items = catenate(items, quickSort(less));
         return items;
     }
 
@@ -77,14 +83,48 @@ public class QuickSort {
      */
     public static void main(String[] args) {
         Queue<String> students = new Queue<String>();
+        Queue<String> sorted = quickSort(students);
+//        Assert.assertEquals(new Queue<>(), sorted);
         students.enqueue("Alice");
         students.enqueue("Vanessa");
         students.enqueue("Ethan");
-        Queue<String> sorted = quickSort(students);
+        sorted = quickSort(students);
         Assert.assertEquals("Alice", sorted.peek());
         sorted.dequeue();
         Assert.assertEquals("Ethan", sorted.peek());
         sorted.dequeue();
         Assert.assertEquals("Vanessa", sorted.peek());
+
+        Queue<Long> integers = new Queue<>();
+        integers.enqueue(0L);
+        integers.enqueue(0L);
+        integers.enqueue(0L);
+        integers.enqueue(2L);
+        integers.enqueue(3L);
+        integers.enqueue(5L);
+        integers.enqueue(6L);
+        integers.enqueue(7L);
+        integers.enqueue(4L);
+        integers.enqueue(4L);
+        Queue<Long> ints = quickSort(integers);
+        Assert.assertEquals(Long.valueOf(0), ints.peek());
+        ints.dequeue();
+        Assert.assertEquals(Long.valueOf(0), ints.peek());
+        ints.dequeue();
+        Assert.assertEquals(Long.valueOf(0), ints.peek());
+        ints.dequeue();
+        Assert.assertEquals(Long.valueOf(2), ints.peek());
+        ints.dequeue();
+        Assert.assertEquals(Long.valueOf(3), ints.peek());
+        ints.dequeue();
+        Assert.assertEquals(Long.valueOf(4), ints.peek());
+        ints.dequeue();
+        Assert.assertEquals(Long.valueOf(4), ints.peek());
+        ints.dequeue();
+        Assert.assertEquals(Long.valueOf(5), ints.peek());
+        ints.dequeue();
+        Assert.assertEquals(Long.valueOf(6), ints.peek());
+        ints.dequeue();
+        Assert.assertEquals(Long.valueOf(7), ints.peek());
     }
 }

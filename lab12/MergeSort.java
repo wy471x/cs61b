@@ -63,9 +63,19 @@ public class MergeSort {
             Queue<Item> q1, Queue<Item> q2) {
         // Your code here!
         Queue<Item> result = new Queue<Item>();
-        while (!q1.isEmpty() || !q2.isEmpty()) {
+        while (!q1.isEmpty() && !q2.isEmpty()) {
             Item min = getMin(q1, q2);
             result.enqueue(min);
+        }
+
+        while (!q1.isEmpty()) {
+            Item item = q1.dequeue();
+            result.enqueue(item);
+        }
+
+        while (!q2.isEmpty()) {
+            Item item = q2.dequeue();
+            result.enqueue(item);
         }
         return result;
     }

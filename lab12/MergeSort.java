@@ -63,19 +63,9 @@ public class MergeSort {
             Queue<Item> q1, Queue<Item> q2) {
         // Your code here!
         Queue<Item> result = new Queue<Item>();
-        while (!q1.isEmpty() && !q2.isEmpty()) {
+        while (!q1.isEmpty() || !q2.isEmpty()) {
             Item min = getMin(q1, q2);
             result.enqueue(min);
-        }
-
-        while (!q1.isEmpty()) {
-            Item item = q1.dequeue();
-            result.enqueue(item);
-        }
-
-        while (!q2.isEmpty()) {
-            Item item = q2.dequeue();
-            result.enqueue(item);
         }
         return result;
     }
@@ -87,12 +77,24 @@ public class MergeSort {
         if (items.isEmpty()) {
             return new Queue<>();
         }
-        Queue<Queue<Item>> queues = makeSingleItemQueues(items);
-        items = new Queue<Item>();
-        for (Queue<Item> queue : queues) {
-            items = mergeSortedQueues(queue, items);
+//        Queue<Queue<Item>> queues = makeSingleItemQueues(items);
+//        items = new Queue<Item>();
+//        for (Queue<Item> queue : queues) {
+//            items = mergeSortedQueues(queue, items);
+//        }
+//        return items;
+
+        Queue<Queue<Item>> tmp = makeSingleItemQueues(items);
+        while (tmp.size() != 1) {
+            Queue<Queue<Item>> tmpp = new Queue<>();
+            while (!tmp.isEmpty()) {
+                Queue<Item> q1 = tmp.dequeue();
+                Queue<Item> q2 = tmp.isEmpty() ? new Queue<>() : tmp.dequeue();
+                tmpp.enqueue(mergeSortedQueues(q1, q2));
+            }
+            tmp = tmpp;
         }
-        return items;
+        return tmp.dequeue();
     }
 
     /**

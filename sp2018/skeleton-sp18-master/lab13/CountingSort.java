@@ -54,7 +54,7 @@ public class CountingSort {
         }
 
         // return the sorted array
-        return sorted;
+        return sorted2;
     }
 
     /**
@@ -67,6 +67,86 @@ public class CountingSort {
      */
     public static int[] betterCountingSort(int[] arr) {
         // TODO make counting sort work with arrays containing negative numbers.
-        return null;
+        int[] negative = generateNegative(arr);
+        int[] positive = generatePositive(arr);
+        int[] result;
+        int j = 0;
+        if (negative != null) {
+            result = new int[negative.length + positive.length];
+            for (int i = negative.length - 1; i >= 0; i--, j++) {
+                result[j] = -negative[i];
+            }
+        } else {
+            result = new int[positive.length];
+        }
+
+        for (int i = 0; i < positive.length; i++, j++) {
+            result[j] = positive[i];
+        }
+        return result;
+    }
+
+    private static int[] generateNegative(int[] arr) {
+        // find max
+        int max = 0, size = 0;
+        for (int i : arr) {
+            if (i < 0) {
+                size++;
+                max = max > -i ? max : -i;
+            }
+        }
+
+        if (max == 0) {
+            return null;
+        }
+
+        // gather all the counts for each value
+        int[] counts = new int[max + 1];
+        for (int i : arr) {
+            if (i < 0) {
+                counts[-i]++;
+            }
+        }
+
+        // when we're dealing with ints, we can just put each value
+        // count number of times into the new array
+        int[] sorted = new int[size];
+        int k = 0;
+        for (int i = 0; i < counts.length; i += 1) {
+            for (int j = 0; j < counts[i]; j += 1, k += 1) {
+                sorted[k] = i;
+            }
+        }
+        return sorted;
+    }
+
+    private static int[] generatePositive(int[] arr) {
+        // find max
+        int max = Integer.MIN_VALUE, size = 0;
+        for (int i : arr) {
+            if (i >= 0) {
+                size++;
+                max = max > i ? max : i;
+            }
+        }
+
+        // gather all the counts for each value
+        int[] counts = new int[max + 1];
+        for (int i : arr) {
+            if (i >= 0) {
+                counts[i]++;
+            }
+        }
+
+        // when we're dealing with ints, we can just put each value
+        // count number of times into the new array
+        int[] sorted = new int[size];
+        int k = 0;
+        for (int i = 0; i < counts.length; i += 1) {
+            for (int j = 0; j < counts[i]; j += 1, k += 1) {
+                sorted[k] = i;
+            }
+        }
+        return sorted;
     }
 }

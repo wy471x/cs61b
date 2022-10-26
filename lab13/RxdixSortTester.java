@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 public class RxdixSortTester {
 
 
-    private static String[] strings = {"aa", "ba", "ce", "eb", "dd", "zw"};
+    private static String[] strings = {"aaa", "bacf", "c", "eb", "dd", "zw"};
 
     public static void assertIsSorted(String[] strs) {
         String previous = String.valueOf((char)0);

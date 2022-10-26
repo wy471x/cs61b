@@ -45,7 +45,7 @@ public class RadixSort {
         // Optional LSD helper method for required LSD radix sort
         int[] radix = new int[256];
         for (int i = 0; i < asciis.length; i++) {
-            if (maxLen - asciis[i].length() > index) {
+            if (index + 1 > asciis[i].length()) {
                 radix[0]++;
             } else {
                 radix[asciis[i].charAt(index)]++;
@@ -59,7 +59,7 @@ public class RadixSort {
         }
 
         for (int i = asciis.length - 1; i >= 0; i--) {
-            if (maxLen - asciis[i].length() > index) {
+            if (index + 1 > asciis[i].length()) {
                 radix[0]--;
                 newAsciis[radix[0]] = asciis[i];
             } else {

@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -23,6 +25,13 @@ public class RxdixSortTester {
     public void testRadixSortLSD() {
         String[] sort = RadixSort.sort(strings);
         assertIsSorted(sort);
+    }
+
+    @Test
+    public void testArraySort() {
+        String[] strs = {"aa", "ba", "ce", "eb", "dd", "zw"};
+        Arrays.sort(strs);
+        assertIsSorted(strs);
     }
 
 

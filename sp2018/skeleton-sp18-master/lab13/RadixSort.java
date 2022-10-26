@@ -28,7 +28,7 @@ public class RadixSort {
             maxLen = maxLen > str.length() ? maxLen : str.length();
         }
 
-        for (int i = 0; i < maxLen; i++) {
+        for (int i = maxLen - 1; i >= 0; i--) {
             sortHelperLSD(asciis, i);
             asciis = Arrays.copyOf(newAsciis, newAsciis.length);
         }
@@ -63,8 +63,9 @@ public class RadixSort {
                 radix[0]--;
                 newAsciis[radix[0]] = asciis[i];
             } else {
-                radix[asciis[i].charAt(index)]--;
-                newAsciis[radix[asciis[i].charAt(index)]] = asciis[i];
+                int p = (int)asciis[i].charAt(index);
+                radix[p]--;
+                newAsciis[radix[p]] = asciis[i];
             }
         }
         return;

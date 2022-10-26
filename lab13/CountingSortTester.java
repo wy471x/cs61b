@@ -14,6 +14,8 @@ public class CountingSortTester {
      **/
     private static int[] nonNegative = {9, 5, 2, 1, 5, 3, 0, 3, 1, 1};
 
+    private static int[] negative = {-10, -5, -7, -8, -9, -1};
+
     public static void assertIsSorted(int[] a) {
         int previous = Integer.MIN_VALUE;
         for (int x : a) {
@@ -53,6 +55,11 @@ public class CountingSortTester {
         assertIsSorted(sortedSomeNegative);
     }
 
+    @Test
+    public void testBetterWithNegative() {
+        int[] sortedNegative = CountingSort.betterCountingSort(negative);
+        assertIsSorted(sortedNegative);
+    }
 
     public static void main(String[] args) {
         jh61b.junit.TestRunner.runTests(CountingSortTester.class);

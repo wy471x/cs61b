@@ -73,7 +73,7 @@ public class CountingSort {
         int j = 0;
         if (positive != null && negative != null) {
             result = new int[positive.length + negative.length];
-            for (int i = 0; i < negative.length; i++, j++) {
+            for (int i = negative.length - 1; i >=0 ; i--, j++) {
                 result[j] = -negative[i];
             }
 
@@ -87,7 +87,7 @@ public class CountingSort {
             }
         } else if (positive == null && negative != null) {
             result = new int[negative.length];
-            for (int i = 0; i < negative.length; i++, j++) {
+            for (int i = negative.length - 1; i >=0 ; i--, j++) {
                 result[j] = -negative[i];
             }
         }

@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class RxdixSortTester {
 
 
-    private static String[] strings = {"a", "b", "c", "e", "d", "z"};
+    private static String[] strings = {"aa", "ba", "ce", "eb", "dd", "zw"};
 
     public static void assertIsSorted(String[] strs) {
         String previous = String.valueOf((char)0);

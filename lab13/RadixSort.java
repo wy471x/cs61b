@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Class for doing Radix sort
  *
@@ -28,6 +30,7 @@ public class RadixSort {
 
         for (int i = 0; i < maxLen; i++) {
             sortHelperLSD(asciis, i);
+            asciis = Arrays.copyOf(newAsciis, newAsciis.length);
         }
         return newAsciis;
     }

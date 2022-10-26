@@ -69,19 +69,27 @@ public class CountingSort {
         // TODO make counting sort work with arrays containing negative numbers.
         int[] negative = generateNegative(arr);
         int[] positive = generatePositive(arr);
-        int[] result;
+        int[] result = null;
         int j = 0;
-        if (negative != null) {
-            result = new int[negative.length + positive.length];
-            for (int i = negative.length - 1; i >= 0; i--, j++) {
+        if (positive != null && negative != null) {
+            result = new int[positive.length + negative.length];
+            for (int i = 0; i < negative.length; i++, j++) {
                 result[j] = -negative[i];
             }
-        } else {
-            result = new int[positive.length];
-        }
 
-        for (int i = 0; i < positive.length; i++, j++) {
-            result[j] = positive[i];
+            for (int i = 0; i < positive.length; i++, j++) {
+                result[j] = positive[i];
+            }
+        } else if (positive != null && negative == null) {
+            result = new int[positive.length];
+            for (int i = 0; i < positive.length; i++, j++) {
+                result[j] = positive[i];
+            }
+        } else if (positive == null && negative != null) {
+            result = new int[negative.length];
+            for (int i = 0; i < negative.length; i++, j++) {
+                result[j] = -negative[i];
+            }
         }
         return result;
     }
@@ -130,6 +138,9 @@ public class CountingSort {
             }
         }
 
+        if (max == Integer.MIN_VALUE) {
+            return null;
+        }
         // gather all the counts for each value
         int[] counts = new int[max + 1];
         for (int i : arr) {

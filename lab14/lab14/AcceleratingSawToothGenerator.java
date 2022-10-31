@@ -20,17 +20,19 @@ public class AcceleratingSawToothGenerator implements Generator {
     @Override
     public double next() {
         if (state < period) {
-            state = state + 1;
-            return normalize(state);
-        } else {
-            state = (state + 1) % period;
             double result = normalize(state);
+            state += 1;
+            return result;
+        } else {
+            state = state % period;
+            double result = normalize(state);
+            state += 1;
             period *= factor;
             return result;
         }
     }
 
     private double normalize(double state) {
-        return -1 + 2 * (state + 1) / period;
+        return -1 + 2 * state / period;
     }
 }

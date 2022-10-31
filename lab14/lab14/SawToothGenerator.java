@@ -17,11 +17,13 @@ public class SawToothGenerator implements Generator {
 
     @Override
     public double next() {
-        state = (state + 1) % period;
-        return normalize(state);
+        state = state % period;
+        double result = normalize(state);
+        state += 1;
+        return result;
     }
 
     private double normalize(int state) {
-        return -1 + 2 * (double)(state + 1) / period;
+        return -1 + 2 * (double)state / period;
     }
 }

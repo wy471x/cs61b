@@ -36,11 +36,14 @@ public class TestPlip {
 
     @Test
     public void testReplicate() {
-
+        Plip plip = new Plip(2);
+        assertNotSame(plip, plip.replicate());
+        assertEquals(1, plip.energy(), 0.01);
     }
 
-    //@Test
+    @Test
     public void testChoose() {
+        // test for rule 1
         Plip p = new Plip(1.2);
         HashMap<Direction, Occupant> surrounded = new HashMap<Direction, Occupant>();
         surrounded.put(Direction.TOP, new Impassible());
@@ -56,6 +59,30 @@ public class TestPlip {
         Action expected = new Action(Action.ActionType.STAY);
 
         assertEquals(expected, actual);
+
+        // test for rule 2
+        Plip p2 = new Plip(2);
+        HashMap<Direction, Occupant> surrounded2 = new HashMap<>();
+        surrounded2.put(Direction.TOP, new Impassible());
+        surrounded2.put(Direction.BOTTOM, new Empty());
+        surrounded2.put(Direction.LEFT, new Impassible());
+        surrounded2.put(Direction.RIGHT, new Impassible());
+
+        Action actual1 = p2.chooseAction(surrounded2);
+        Action action1 = new Action(Action.ActionType.REPLICATE, Direction.BOTTOM);
+        assertEquals(action1, actual1);
+
+        // test for rule 4
+        Plip p3 = new Plip(0.5);
+        HashMap<Direction, Occupant> surrounded3 = new HashMap<>();
+        surrounded2.put(Direction.TOP, new Impassible());
+        surrounded2.put(Direction.BOTTOM, new Empty());
+        surrounded2.put(Direction.LEFT, new Impassible());
+        surrounded2.put(Direction.RIGHT, new Impassible());
+
+        Action actual2 = p3.chooseAction(surrounded2);
+        Action action2 = new Action(Action.ActionType.STAY);
+        assertEquals(action2, actual2);
     }
 
     public static void main(String[] args) {

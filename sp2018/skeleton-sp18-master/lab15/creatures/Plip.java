@@ -19,6 +19,8 @@ public class Plip extends Creature {
     private int g;
     /** blue color. */
     private int b;
+    /** probability of taking a move when ample space available. */
+    private double moveProbability = 0.5;
 
     /** creates plip with energy equal to E. */
     public Plip(double e) {
@@ -41,12 +43,16 @@ public class Plip extends Creature {
      *  linearly in between these two extremes. It's not absolutely vital
      *  that you get this exactly correct.
      */
+    @Override
     public Color color() {
-        g = 63;
+        g = (int) (63 + (255 - 63) * this.energy() / 2);
+        r = 99;
+        b = 76;
         return color(r, g, b);
     }
 
     /** Do nothing with C, Plips are pacifists. */
+    @Override
     public void attack(Creature c) {
     }
 
@@ -54,20 +60,33 @@ public class Plip extends Creature {
      *  to avoid the magic number warning, you'll need to make a
      *  private static final variable. This is not required for this lab.
      */
+    @Override
     public void move() {
+        this.energy -= 0.15;
     }
 
 
     /** Plips gain 0.2 energy when staying due to photosynthesis. */
+    @Override
     public void stay() {
+        if (this.energy + 0.2 > 2) {
+            this.energy = 2;
+            return;
+        }
+        this.energy += 0.2;
     }
 
     /** Plips and their offspring each get 50% of the energy, with none
      *  lost to the process. Now that's efficiency! Returns a baby
      *  Plip.
      */
+    @Override
     public Plip replicate() {
-        return this;
+        Plip child = new Plip(this.energy /= 2);
+        child.r = this.r;
+        child.g = this.g;
+        child.b = this.b;
+        return child;
     }
 
     /** Plips take exactly the following actions based on NEIGHBORS:
@@ -80,7 +99,33 @@ public class Plip extends Creature {
      *  scoop on how Actions work. See SampleCreature.chooseAction()
      *  for an example to follow.
      */
+    @Override
     public Action chooseAction(Map<Direction, Occupant> neighbors) {
+        List<Direction> empties = getNeighborsOfType(neighbors, "empty");
+        // rule 1
+        if (empties.size() == 0) {
+            return new Action(Action.ActionType.STAY);
+        }
+
+        // rule 2
+        if (this.energy > 1) {
+            if (empties.size() == 1) {
+                Direction moveDir = empties.get(0);
+                return new Action(Action.ActionType.REPLICATE, moveDir);
+            }
+
+            if (empties.size() > 1) {
+                if (HugLifeUtils.random() < moveProbability) {
+                    Direction moveDir = HugLifeUtils.randomEntry(empties);
+                    return new Action(Action.ActionType.REPLICATE, moveDir);
+                }
+            }
+        }
+
+        // rule 3
+
+
+        // rule 4
         return new Action(Action.ActionType.STAY);
     }
 

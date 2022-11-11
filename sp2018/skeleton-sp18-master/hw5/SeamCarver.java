@@ -39,22 +39,22 @@ public class SeamCarver {
     }
 
     private double calcDeltaX(int x, int y) {
-        double rX = this.picture.get(x == 0 ? width() - 1 : x - 1, y).getRed() -
-                this.picture.get((x + 1) % width(), y).getRed();
-        double gX = this.picture.get(x == 0 ? width() - 1 : x - 1, y).getGreen() -
-                this.picture.get((x + 1) % width(), y).getGreen();
-        double bX = this.picture.get(x == 0 ? width() - 1 : x - 1, y).getBlue() -
-                this.picture.get((x + 1) % width(), y).getBlue();
+        double rX = this.picture.get(x == 0 ? width() - 1 : x - 1, y).getRed()
+                - this.picture.get((x + 1) % width(), y).getRed();
+        double gX = this.picture.get(x == 0 ? width() - 1 : x - 1, y).getGreen()
+                - this.picture.get((x + 1) % width(), y).getGreen();
+        double bX = this.picture.get(x == 0 ? width() - 1 : x - 1, y).getBlue()
+                - this.picture.get((x + 1) % width(), y).getBlue();
         return rX * rX + gX * gX + bX * bX;
     }
 
     private double calcDeltaY(int x, int y) {
-        double rY = this.picture.get(x, (y + 1) % height()).getRed() -
-                this.picture.get(x, y == 0 ? height() - 1 : y - 1).getRed();
-        double gY = this.picture.get(x, (y + 1) % height()).getGreen() -
-                this.picture.get(x, y == 0 ? height() - 1 : y - 1).getGreen();
-        double bY = this.picture.get(x, (y + 1) % height()).getBlue() -
-                this.picture.get(x, y == 0 ? height() - 1 : y - 1).getBlue();
+        double rY = this.picture.get(x, (y + 1) % height()).getRed()
+                - this.picture.get(x, y == 0 ? height() - 1 : y - 1).getRed();
+        double gY = this.picture.get(x, (y + 1) % height()).getGreen()
+                - this.picture.get(x, y == 0 ? height() - 1 : y - 1).getGreen();
+        double bY = this.picture.get(x, (y + 1) % height()).getBlue()
+                - this.picture.get(x, y == 0 ? height() - 1 : y - 1).getBlue();
         return rY * rY + gY * gY + bY * bY;
     }
 

@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5df3c2ff-dbca-43fa-b392-ed33a4dac3d9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/10x10.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/10x12.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/12x10.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/1x1.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/1x8.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/3x4.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/3x7.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/4x6.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/5x6.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/6x5.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/7x10.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/7x3.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/8x1.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/diagonals.printseams.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/hw5/images/stripes.printseams.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SeamCarver.java" beforeDir="false" afterPath="$PROJECT_DIR$/SeamCarver.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +35,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager">
     <configuration name="SeamCarverVisualizer" type="Application" factoryName="Application">
@@ -73,7 +59,7 @@
       <workItem from="1667401967125" duration="92000" />
       <workItem from="1668082722378" duration="6114000" />
       <workItem from="1668109284945" duration="623000" />
-      <workItem from="1668109943392" duration="1068000" />
+      <workItem from="1668109943392" duration="1838000" />
     </task>
     <servers />
   </component>

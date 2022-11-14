@@ -1,5 +1,7 @@
 import edu.princeton.cs.algs4.Picture;
 
+import java.util.*;
+
 /**
  * @author dunk
  * @date 2022/11/9 21:18
@@ -10,9 +12,12 @@ public class SeamCarver {
 
     private double[][] pixels;
 
+    private Map<Double, List<Integer>> weights;
+
     public SeamCarver(Picture picture) {
         this.picture = picture;
         pixels = new double[picture.height()][picture.width()];
+        weights = new HashMap<>();
     }
 
     // current picture
@@ -61,37 +66,83 @@ public class SeamCarver {
     // sequence of indices for horizontal seam
     public int[] findHorizontalSeam() {
         calcEnegyOfPixels();
-        int[] horizontalSeam = new int[picture().width()];
-        for (int i = 0; i < width(); i++) {
-            double minEnegy = pixels[0][i];
-            int index = 0;
-            for (int j = 0; j < height(); j++) {
-                if (pixels[j][i] < minEnegy) {
-                    minEnegy = pixels[j][i];
-                    index = j;
+        for (int i = 0; i < height(); i++) {
+            double total = pixels[i][0];
+            List<Integer> seams = new ArrayList<>(Arrays.asList(i));
+            for (int j = 1; j < width(); j++) {
+                int start = i == 0 ? i : i - 1, end = i == height() - 1 ? i : i + 1;
+                double min = Math.min(pixels[start][j], Math.min(pixels[i][j], pixels[end][j]));
+                total += min;
+                for (int k = start; k <= end; k++) {
+                    if (pixels[k][j] == min) {
+                        seams.add(k);
+                        break;
+                    }
                 }
             }
-            horizontalSeam[i] = index;
+            weights.put(total, seams);
         }
-        return horizontalSeam;
+
+        Set<Double> weight = weights.keySet();
+        double min = 0.0;
+        for (Double  w : weight) {
+            if (min > w) {
+                min = w;
+            }
+        }
+
+        Set<Map.Entry<Double, List<Integer>>> entries = weights.entrySet();
+        int[] result = new int[width()];
+        for (Map.Entry<Double, List<Integer>> entry : entries) {
+            if (entry.getKey() == min) {
+                int i = 0;
+                for (Integer enegy : entry.getValue()) {
+                    result[i++] = enegy;
+                }
+            }
+        }
+        return result;
     }
 
     // sequence of indices for vertical seam
     public int[] findVerticalSeam()     {
         calcEnegyOfPixels();
-        int[] verticalSeams = new int[picture().height()];
-        for (int i = 0; i < height(); i++) {
-            double minEnegy = pixels[i][0];
-            int index = 0;
-            for (int j = 0; j < width(); j++) {
-                if (pixels[i][j] < minEnegy) {
-                    minEnegy = pixels[i][j];
-                    index = j;
+        for (int i = 0; i < width(); i++) {
+            double total = pixels[0][i];
+            List<Integer> seams = new ArrayList<>(Arrays.asList(i));
+            for (int j = 1; j < width(); j++) {
+                int start = i == 0 ? i : i - 1, end = i == width() - 1 ? i : i + 1;
+                double min = Math.min(pixels[start][j], Math.min(pixels[i][j], pixels[end][j]));
+                total += min;
+                for (int k = start; k <= end; k++) {
+                    if (pixels[k][j] == min) {
+                        seams.add(k);
+                        break;
+                    }
                 }
             }
-            verticalSeams[i] = index;
+            weights.put(total, seams);
         }
-        return verticalSeams;
+
+        Set<Double> weight = weights.keySet();
+        double min = 0.0;
+        for (Double  w : weight) {
+            if (min > w) {
+                min = w;
+            }
+        }
+
+        Set<Map.Entry<Double, List<Integer>>> entries = weights.entrySet();
+        int[] result = new int[height()];
+        for (Map.Entry<Double, List<Integer>> entry : entries) {
+            if (entry.getKey() == min) {
+                int i = 0;
+                for (Integer enegy : entry.getValue()) {
+                    result[i++] = enegy;
+                }
+            }
+        }
+        return result;
     }
 
     private void calcEnegyOfPixels() {

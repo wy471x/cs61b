@@ -59,7 +59,11 @@
       <workItem from="1667401967125" duration="92000" />
       <workItem from="1668082722378" duration="6114000" />
       <workItem from="1668109284945" duration="623000" />
-      <workItem from="1668109943392" duration="1838000" />
+      <workItem from="1668109943392" duration="2542000" />
+      <workItem from="1668161070474" duration="2745000" />
+      <workItem from="1668322126335" duration="2928000" />
+      <workItem from="1668399850547" duration="2960000" />
+      <workItem from="1668425602690" duration="3053000" />
     </task>
     <servers />
   </component>
@@ -76,5 +80,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/SeamRemover.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

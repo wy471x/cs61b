@@ -63,12 +63,25 @@ public class SeamCarver {
         calcEnegyOfPixels();
         int[] horizontalSeam = new int[picture().width()];
         for (int i = 0; i < width(); i++) {
-            double minEnegy = pixels[0][i];
+            double minEnegy;
             int index = 0;
-            for (int j = 0; j < height(); j++) {
-                if (pixels[j][i] < minEnegy) {
-                    minEnegy = pixels[j][i];
-                    index = j;
+            if (i == 0) {
+                minEnegy = pixels[0][i];
+                for (int j = 0; j < height(); j++) {
+                    if (pixels[j][i] < minEnegy) {
+                        minEnegy = pixels[j][i];
+                        index = j;
+                    }
+                }
+            } else {
+                int prev = horizontalSeam[i - 1];
+                minEnegy = pixels[prev][i];
+                int start = prev == 0 ? 0 : prev - 1, end = prev == width() - 1 ? width() - 1 : prev + 1;
+                for (int j = start; j <= end; j++) {
+                    if (pixels[j][i] < minEnegy) {
+                        minEnegy = pixels[j][i];
+                        index = j;
+                    }
                 }
             }
             horizontalSeam[i] = index;
@@ -81,12 +94,25 @@ public class SeamCarver {
         calcEnegyOfPixels();
         int[] verticalSeams = new int[picture().height()];
         for (int i = 0; i < height(); i++) {
-            double minEnegy = pixels[i][0];
+            double minEnegy;
             int index = 0;
-            for (int j = 0; j < width(); j++) {
-                if (pixels[i][j] < minEnegy) {
-                    minEnegy = pixels[i][j];
-                    index = j;
+            if (i == 0) {
+                minEnegy = pixels[i][0];
+                for (int j = 0; j < width(); j++) {
+                    if (pixels[i][j] < minEnegy) {
+                        minEnegy = pixels[i][j];
+                        index = j;
+                    }
+                }
+            } else {
+                int prev = verticalSeams[i - 1];
+                minEnegy = pixels[i][prev];
+                int start = prev == 0 ? 0 : prev - 1, end = prev == height() - 1 ? height() - 1 : prev + 1;
+                for (int j = start; j <= end; j++) {
+                    if (pixels[i][j] < minEnegy) {
+                        minEnegy = pixels[i][j];
+                        index = j;
+                    }
                 }
             }
             verticalSeams[i] = index;

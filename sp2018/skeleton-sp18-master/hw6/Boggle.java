@@ -17,6 +17,33 @@ public class Boggle {
      */
     public static List<String> solve(int k, String boardFilePath) {
         // YOUR CODE HERE
+        In in = new In();
+        checkInputNum(k);
+        checkDicFile(in);
+        String[] strings = in.readAllLines();
+        checkRectangular(strings);
+
         return null;
+    }
+
+    public static void checkRectangular(String... strs) {
+        int old = strs[0].length();
+        for (int i = 0; i < strs.length; i++) {
+            if (old != strs[i].length()) {
+                throw new IllegalArgumentException("The input board is not rectangular.");
+            }
+        }
+    }
+
+    public static void checkInputNum(int k) {
+        if (k <= 0) {
+            throw new IllegalArgumentException("k is non-positive.");
+        }
+    }
+
+    public static void checkDicFile(In in) {
+        if (!in.exists()) {
+            throw new IllegalArgumentException("The dictionary file does not exist.");
+        }
     }
 }

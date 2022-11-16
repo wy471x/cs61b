@@ -24,7 +24,7 @@ public class HuffmanDecoder {
         List<Character> symbols = new ArrayList<>();
         BitSequence bitSequence = (BitSequence) objectReader.readObject();
         int step = 0;
-        while (step + FIXED_BITS < bitSequence.length()) {
+        while (step + FIXED_BITS <= bitSequence.length()) {
             BitSequence temp = new BitSequence();
             for (int i = step; i < step + FIXED_BITS; i++) {
                 temp = temp.appended(bitSequence.bitAt(i));

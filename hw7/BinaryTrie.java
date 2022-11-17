@@ -51,22 +51,25 @@ public class BinaryTrie implements Serializable {
 
     // match longest prefix
     public Match longestPrefixMatch(BitSequence querySequence) {
-        for (Map.Entry<Character, BitSequence> entry : table.entrySet()) {
-            if (checkSequenceEquality(querySequence, entry.getValue())) {
-                return new Match(entry.getValue(), entry.getKey());
+        Node cur = root;
+        Node child = null;
+        BitSequence bitSequence = new BitSequence();
+        for (int i = 0; i < querySequence.length(); i++) {
+            int b = querySequence.bitAt(i);
+            if (b == 0) {
+                child = cur.left;
+            } else if (b == 1) {
+                child = cur.right;
             }
-        }
-        return null;
-    }
-
-    // check two bit sequence equality
-    private boolean checkSequenceEquality(BitSequence querySequence, BitSequence source) {
-        for (int i = 1; i <= querySequence.length(); i++) {
-            if (querySequence.firstNBits(i).equals(source)) {
-                return true;
+            if (child == null) {
+                return new Match(bitSequence, cur.ch);
             }
+            if (i != querySequence.length()) {
+                cur = child;
+            }
+            bitSequence = bitSequence.appended(b);
         }
-        return false;
+        return new Match(bitSequence, cur.ch);
     }
 
     // build lookup table

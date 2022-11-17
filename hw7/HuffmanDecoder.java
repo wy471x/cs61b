@@ -67,6 +67,7 @@ public class HuffmanDecoder {
         //    4c: Create a new bit sequence containing the remaining unmatched bits.
         BitSequence temp = new BitSequence(bitSequence);
         while (temp.length() > 0) {
+            System.out.println(temp.length() + " " + k);
             Match match = binaryTrie.longestPrefixMatch(temp);
             if (match != null) {
                 chars[k++] = match.getSymbol();

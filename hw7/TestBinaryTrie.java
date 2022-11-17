@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.Map;
@@ -82,6 +83,16 @@ public class TestBinaryTrie {
         expected.put('d', new BitSequence("10"));
         expected.put('e', new BitSequence("11"));
         assertEquals(expected, yourTable);
+    }
+
+    @Test
+    public void testEncoder() {
+        String path = "watermelonsugar.txt";
+        char[] chars = FileUtils.readFile(path);
+        Map<Character, Integer> characterIntegerMap = HuffmanEncoder.buildFrequencyTable(chars);
+        BinaryTrie binaryTrie = new BinaryTrie(characterIntegerMap);
+        Map<Character, BitSequence> characterBitSequenceMap = binaryTrie.buildLookupTable();
+        Assert.assertEquals("1011010011", characterBitSequenceMap.get('B').toString());
     }
 
     public static void main(String[] args) {

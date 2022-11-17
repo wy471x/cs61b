@@ -13,8 +13,20 @@ public class BinaryTrie implements Serializable {
 
     private Node root;
 
+    private Map<Character, BitSequence> table;
+
+
+    public Node getRoot() {
+        return root;
+    }
+
+    public void setRoot(Node root) {
+        this.root = root;
+    }
+
     public BinaryTrie(Map<Character, Integer> frequencyTable) {
         root = buildTrie(frequencyTable);
+        table = buildLookupTable();
     }
 
     // build the Huffman trie given frequencies
@@ -39,8 +51,7 @@ public class BinaryTrie implements Serializable {
 
     // match longest prefix
     public Match longestPrefixMatch(BitSequence querySequence) {
-        Map<Character, BitSequence> characterBitSequenceMap = buildLookupTable();
-        for (Map.Entry<Character, BitSequence> entry : characterBitSequenceMap.entrySet()) {
+        for (Map.Entry<Character, BitSequence> entry : table.entrySet()) {
             if (checkSequenceEquality(querySequence, entry.getValue())) {
                 return new Match(entry.getValue(), entry.getKey());
             }
@@ -76,10 +87,26 @@ public class BinaryTrie implements Serializable {
     }
 
     // Huffman trie node
-    private static class Node implements Comparable<BinaryTrie.Node>, Serializable {
+    public static class Node implements Comparable<BinaryTrie.Node>, Serializable {
         private final char ch;
         private final int freq;
         private final BinaryTrie.Node left, right;
+
+        public char getCh() {
+            return ch;
+        }
+
+        public int getFreq() {
+            return freq;
+        }
+
+        public Node getLeft() {
+            return left;
+        }
+
+        public Node getRight() {
+            return right;
+        }
 
         Node(char ch, int freq, BinaryTrie.Node left, BinaryTrie.Node right) {
             this.ch    = ch;

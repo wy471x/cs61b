@@ -196,6 +196,7 @@ public class HexWorld {
 
         TETile[][] world = new TETile[WIDTH][HEIGHT];
         drawTesselationHexagons(world);
+//        drawSingleHexagon(world);
 
         ter.renderFrame(world);
     }

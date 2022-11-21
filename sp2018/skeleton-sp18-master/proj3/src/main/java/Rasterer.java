@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,13 +49,51 @@ public class Rasterer {
         System.out.println(params);
 
         // input calc
-        double query_resolution = Math.abs(params.get("lrlon") - params.get("ullon"))
+        double queryResolution = Math.abs(params.get("lrlon") - params.get("ullon"))
                 * EACH_DEGREE_OF_LON_MAP_DISTANCE / params.get("w");
+        double queryLonDPP = Math.abs(params.get("lrlon") - params.get("ullon")) / params.get("w");
+
+        double initResolution = Math.abs(MapServer.ROOT_LRLON - MapServer.ROOT_ULLON)
+                * EACH_DEGREE_OF_LON_MAP_DISTANCE / params.get("w");
+        double initLonDPP = Math.abs(MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) / params.get("w");
+
+        // calc depth
+        int depth = calcDepth(queryLonDPP, queryResolution, initLonDPP, initResolution);
 
 
         Map<String, Object> results = new HashMap<>();
         System.out.println("Since you haven't implemented getMapRaster, nothing is displayed in "
                            + "your browser.");
+        results.put("depth", depth);
+
+        // search raster grid
+        int queryWidth = (int) Math.pow(2, depth), queryHeight = (int) Math.pow(2, depth);
+        List<ArrayList<String>> grids = new ArrayList<>();
+        Position queryPosition = new Position(params.get("ullon"), params.get("lrlon"), params.get("ullat"), params.get("lrlat"));
+        for (int i = 0; i < queryWidth; i++) {
+            ArrayList<String> grid = new ArrayList<>();
+            for (int j = 0; j < queryHeight; j++) {
+                // todo: get all grid
+                Position searchPosition = new Position(MapServer.ROOT_ULLON + i * (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) / queryWidth,
+                        MapServer.ROOT_ULLON + (i + 1) * (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) / queryWidth,
+                        MapServer.ROOT_ULLAT + j * (MapServer.ROOT_ULLAT - MapServer.ROOT_LRLAT) / queryHeight,
+                        MapServer.ROOT_ULLAT + (j + 1) * (MapServer.ROOT_ULLAT - MapServer.ROOT_LRLAT) / queryHeight);
+                if (checkPositionInRange(queryPosition, searchPosition)) {
+                    grid.add("d" + "x" + i + "_" + "y" + j);
+                }
+            }
+            grids.add(grid);
+        }
+        String[][] strGrids = new String[grids.size()][grids.get(0).size()];
+        int i = 0;
+        for (ArrayList arrayList : grids) {
+            strGrids[i++] = (String[]) arrayList.toArray();
+        }
+        results.put("render_grid", strGrids);
+
+
+
+
 //        results.put("raster_ul_lon", -122.24212646484375);
 //        results.put("raster_lr_lon", -122.24006652832031);
 //        results.put("raster_lr_lat", 37.87538940251607);
@@ -65,6 +105,45 @@ public class Rasterer {
         return results;
     }
 
+    private int calcDepth(double queryLonDPP, double queryResolution, double initLonDPP, double initResolution) {
+        int i = 0;
+        while (i < 8) {
+            double depthLonDPP = initLonDPP / Math.pow(2 , i), depthResolution = initResolution / Math.pow(2, i);
+            if (depthLonDPP <= queryLonDPP && depthResolution <= queryResolution) {
+                return i;
+            }
+            i++;
+        }
+        return i;
+    }
 
+    private boolean checkPositionInRange(Position queryPosition, Position searchPosition) {
+        // up
+        if (searchPosition.getUllat() >= queryPosition.getUllat()
+                && searchPosition.getLrlat() <= queryPosition.getUllat()) {
+            return true;
+        }
+
+        // left
+        if (searchPosition.getUllon() <= queryPosition.getUllon()
+                && searchPosition.getLrlon() >= queryPosition.getUllon()) {
+            return true;
+        }
+
+        // right
+        if (searchPosition.getUllon() <= queryPosition.getLrlon()
+                && searchPosition.getLrlon() >= queryPosition.getLrlon()) {
+            return true;
+        }
+
+        // down
+        if (searchPosition.getUllat() >= queryPosition.getLrlat()
+                && searchPosition.getLrlat() <= queryPosition.getUllat()) {
+            return true;
+        }
+
+        // otherwise
+        return false;
+    }
 
 }

@@ -9,6 +9,8 @@ import java.util.Map;
  */
 public class Rasterer {
 
+    private static final int EACH_DEGREE_OF_LON_MAP_DISTANCE = 288200;
+
     public Rasterer() {
         // YOUR CODE HERE
     }
@@ -43,18 +45,26 @@ public class Rasterer {
      */
     public Map<String, Object> getMapRaster(Map<String, Double> params) {
         System.out.println(params);
+
+        // input calc
+        double query_resolution = Math.abs(params.get("lrlon") - params.get("ullon"))
+                * EACH_DEGREE_OF_LON_MAP_DISTANCE / params.get("w");
+
+
         Map<String, Object> results = new HashMap<>();
         System.out.println("Since you haven't implemented getMapRaster, nothing is displayed in "
                            + "your browser.");
-        results.put("raster_ul_lon", -122.24212646484375);
-        results.put("raster_lr_lon", -122.24006652832031);
-        results.put("raster_lr_lat", 37.87538940251607);
-        results.put("raster_ul_lat", 37.87701580361881);
-        results.put("query_success", true);
-        results.put("depth", 7);
-        String[][] grids = new String[][]{{"d7_x84_y28.png", "d7_x85_y28.png", "d7_x86_y28.png"}, {"d7_x84_y29.png", "d7_x85_y29.png", "d7_x86_y29.png"}, {"d7_x84_y30.png", "d7_x85_y30.png", "d7_x86_y30.png"}};
-        results.put("render_grid", grids);
+//        results.put("raster_ul_lon", -122.24212646484375);
+//        results.put("raster_lr_lon", -122.24006652832031);
+//        results.put("raster_lr_lat", 37.87538940251607);
+//        results.put("raster_ul_lat", 37.87701580361881);
+//        results.put("query_success", true);
+//        results.put("depth", 7);
+//        String[][] grids = new String[][]{{"d7_x84_y28.png", "d7_x85_y28.png", "d7_x86_y28.png"}, {"d7_x84_y29.png", "d7_x85_y29.png", "d7_x86_y29.png"}, {"d7_x84_y30.png", "d7_x85_y30.png", "d7_x86_y30.png"}};
+//        results.put("render_grid", grids);
         return results;
     }
+
+
 
 }

@@ -9,6 +9,22 @@ public class Position {
     private double ullat;
     private double lrlat;
 
+    private int depth;
+
+    private int x;
+
+    private int y;
+
+    public Position(int depth, int x, int y, double ullon, double lrlon, double ullat, double lrlat) {
+        this.ullon = ullon;
+        this.lrlon = lrlon;
+        this.ullat = ullat;
+        this.lrlat = lrlat;
+        this.depth = depth;
+        this.x = x;
+        this.y = y;
+    }
+
     public Position(double ullon, double lrlon, double ullat, double lrlat) {
         this.ullon = ullon;
         this.lrlon = lrlon;
@@ -44,7 +60,14 @@ public class Position {
         return lrlat;
     }
 
+    @Override
+    public String toString() {
+        return "d" + depth + "_x" + x + "_y" + y;
+    }
+
     public void setLrlat(double lrlat) {
         this.lrlat = lrlat;
     }
+
+
 }

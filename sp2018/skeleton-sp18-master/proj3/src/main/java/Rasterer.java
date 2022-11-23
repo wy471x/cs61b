@@ -71,13 +71,14 @@ public class Rasterer {
             int queryWidth = (int) Math.pow(2, depth), queryHeight = (int) Math.pow(2, depth);
             List<ArrayList<Position>> grids = new ArrayList<>();
             Position queryPosition = new Position(params.get("ullon"), params.get("lrlon"), params.get("ullat"), params.get("lrlat"));
-            for (int i = 0; i < queryWidth; i++) {
+            for (int i = 0; i < queryHeight; i++) {
                 ArrayList<Position> grid = new ArrayList<>();
-                for (int j = 0; j < queryHeight; j++) {
-                    Position searchPosition = new Position(depth, i, j, MapServer.ROOT_ULLON + i * (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) / queryWidth,
-                            MapServer.ROOT_ULLON + (i + 1) * (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) / queryWidth,
-                            MapServer.ROOT_ULLAT + j * (MapServer.ROOT_ULLAT - MapServer.ROOT_LRLAT) / queryHeight,
-                            MapServer.ROOT_ULLAT + (j + 1) * (MapServer.ROOT_ULLAT - MapServer.ROOT_LRLAT) / queryHeight);
+                for (int j = 0; j < queryWidth; j++) {
+                    double ulLon = MapServer.ROOT_ULLON + j * (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) / queryWidth;
+                    double lrLon = MapServer.ROOT_ULLON + (j + 1) * (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) / queryWidth;
+                    double ulLat = MapServer.ROOT_ULLAT - i * (MapServer.ROOT_ULLAT - MapServer.ROOT_LRLAT) / queryHeight;
+                    double lrLat = MapServer.ROOT_ULLAT - (i + 1) * (MapServer.ROOT_ULLAT - MapServer.ROOT_LRLAT) / queryHeight;
+                    Position searchPosition = new Position(depth, j, i, ulLon, lrLon, ulLat, lrLat);
                     if (checkPositionInRange(queryPosition, searchPosition)) {
                         grid.add(searchPosition);
                     }
@@ -86,29 +87,48 @@ public class Rasterer {
                     grids.add(grid);
                 }
             }
-            String[][] strGrids = new String[grids.size()][grids.get(0).size()];
-            int i = 0;
-            for (ArrayList<Position> grid : grids) {
-                int j = 0;
-                for (Position position : grid) {
-                    strGrids[i][j++] = position.toString() + ".png";
+            String[][] strGrids = null;
+            if (grids.size() > 0) {
+                strGrids = new String[grids.size()][grids.get(0).size()];
+                int i = 0;
+                for (ArrayList<Position> grid : grids) {
+                    int j = 0;
+                    for (Position position : grid) {
+                        strGrids[i][j++] = position.toString() + ".png";
+                    }
+                    i++;
                 }
-                i++;
             }
             // 2. render_grid
             results.put("render_grid", strGrids);
 
             // 3. raster ullon
-            results.put("raster_ul_lon", grids.get(0).get(0).getUllon());
+            if (grids.size() > 0) {
+                results.put("raster_ul_lon", grids.get(0).get(0).getUllon());
+            } else {
+                results.put("raster_ul_lon", null);
+            }
             // 4. raster lrlon
-            results.put("raster_lr_lon", grids.get(grids.size() - 1).get(grids.size() - 1).getLrlon());
+            if (grids.size() > 0) {
+                results.put("raster_lr_lon", grids.get(grids.size() - 1).get(grids.get(grids.size() - 1).size() - 1).getLrlon());
+            } else {
+                results.put("raster_lr_lon", null);
+            }
             // 5. raster_ul_lat
-            results.put("raster_ul_lat", grids.get(0).get(0).getUllat());
+            if (grids.size() > 0) {
+                results.put("raster_ul_lat", grids.get(0).get(0).getUllat());
+            } else {
+                results.put("raster_ul_lat", null);
+            }
             // 6. raster_lr_lat
-            results.put("raster_lr_lat", grids.get(grids.size() - 1).get(grids.size() - 1).getLrlat());
+            if (grids.size() > 0) {
+                results.put("raster_lr_lat", grids.get(grids.size() - 1).get(grids.get(grids.size() - 1).size() - 1).getLrlat());
+            } else {
+                results.put("raster_lr_lat", null);
+            }
 
             // 7. query_success
-            if (params.get("ullon") > params.get("lrlon") || params.get("ullat") < params.get("lrlat")) {
+            if (params.get("ullon") > params.get("lrlon") || params.get("ullat") < params.get("lrlat") || grids.size() == 0) {
                 results.put("query_success", false);
             } else {
                 results.put("query_success", true);
@@ -135,31 +155,37 @@ public class Rasterer {
             }
             i++;
         }
-        return i;
+        return i - 1;
     }
 
     private boolean checkPositionInRange(Position queryPosition, Position searchPosition) {
-        // up
-        if (searchPosition.getUllat() >= queryPosition.getUllat()
-                && searchPosition.getLrlat() <= queryPosition.getUllat()) {
+        if (searchPosition.getLrlat() < queryPosition.getUllat() && searchPosition.getLrlat() > queryPosition.getLrlat()
+                && searchPosition.getLrlon() > queryPosition.getUllon() && searchPosition.getLrlon() < queryPosition.getLrlon()) {
             return true;
         }
 
-        // left
-        if (searchPosition.getUllon() <= queryPosition.getUllon()
-                && searchPosition.getLrlon() >= queryPosition.getUllon()) {
+        if (searchPosition.getUllat() < queryPosition.getUllat() && searchPosition.getUllat() > queryPosition.getLrlat()
+                && searchPosition.getLrlon() > queryPosition.getUllon() && searchPosition.getLrlon() < queryPosition.getLrlon()) {
             return true;
         }
 
-        // right
-        if (searchPosition.getUllon() <= queryPosition.getLrlon()
-                && searchPosition.getLrlon() >= queryPosition.getLrlon()) {
+        if (searchPosition.getUllon() < queryPosition.getLrlon() && searchPosition.getUllon() > queryPosition.getUllon()
+                && searchPosition.getLrlat() < queryPosition.getUllat() && searchPosition.getLrlat() > queryPosition.getLrlat()) {
             return true;
         }
 
-        // down
-        if (searchPosition.getUllat() >= queryPosition.getLrlat()
-                && searchPosition.getLrlat() <= queryPosition.getUllat()) {
+        if (searchPosition.getUllat() < queryPosition.getUllat() && searchPosition.getUllat() > queryPosition.getLrlat()
+                && searchPosition.getUllon() < queryPosition.getLrlon() && searchPosition.getUllon() > queryPosition.getUllon()) {
+            return true;
+        }
+
+        if (searchPosition.getLrlon() < queryPosition.getLrlon() && searchPosition.getLrlon() > queryPosition.getUllon()
+                && searchPosition.getLrlat() < queryPosition.getUllat() && searchPosition.getUllat() > queryPosition.getLrlat()) {
+            return true;
+        }
+
+        if (searchPosition.getUllon() > queryPosition.getUllon() && searchPosition.getUllon() < queryPosition.getLrlon()
+                && searchPosition.getUllat() > queryPosition.getUllat() && searchPosition.getLrlat() < queryPosition.getLrlat()) {
             return true;
         }
 

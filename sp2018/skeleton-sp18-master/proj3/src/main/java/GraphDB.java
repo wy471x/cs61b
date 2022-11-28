@@ -21,7 +21,7 @@ public class GraphDB {
     /** Your instance variables for storing the graph. You should consider
      * creating helper classes, e.g. Node, Edge, etc. */
     private final Map<Long, Location> locationMap = new HashMap<>();
-    private final Map<Long, Node> nodes = new HashMap<>();
+    private final Map<Long, Node> nodeMap = new HashMap<>();
     private final Map<String, List<Long>> nameMap = new HashMap<>();
     private final TrieST<Long> st = new TrieST<>();
 
@@ -62,6 +62,13 @@ public class GraphDB {
      */
     private void clean() {
         // TODO: Your code here.
+        Iterator<Map.Entry<Long, Node>> iterator = nodeMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Long, Node> item = iterator.next();
+            if (item.getValue().adj.isEmpty()) {
+                iterator.remove();
+            }
+        }
     }
 
     /**
@@ -70,7 +77,7 @@ public class GraphDB {
      */
     Iterable<Long> vertices() {
         //YOUR CODE HERE, this currently returns only an empty list.
-        return new ArrayList<Long>();
+        return nodeMap.keySet();
     }
 
     /**
@@ -79,7 +86,8 @@ public class GraphDB {
      * @return An iterable of the ids of the neighbors of v.
      */
     Iterable<Long> adjacent(long v) {
-        return null;
+        validateVertex(v);
+        return nodeMap.get(v).adj;
     }
 
     /**
@@ -140,7 +148,17 @@ public class GraphDB {
      * @return The id of the node in the graph closest to the target.
      */
     long closest(double lon, double lat) {
-        return 0;
+        double shortest = Double.MAX_VALUE;
+        long ret = -117;
+        for (long id : nodeMap.keySet()) {
+            Node x = nodeMap.get(id);
+            double currentDist = distance(lon(id), lat(id), lon, lat);
+            if (currentDist < shortest) {
+                shortest = currentDist;
+                ret = id;
+            }
+        }
+        return ret;
     }
 
     /**
@@ -149,7 +167,13 @@ public class GraphDB {
      * @return The longitude of the vertex.
      */
     double lon(long v) {
-        return 0;
+        validateVertex(v);
+        return nodeMap.get(v).lon;
+    }
+
+    double locLon(long v) {
+        validateLocation(v);
+        return locationMap.get(v).lon;
     }
 
     /**
@@ -158,12 +182,89 @@ public class GraphDB {
      * @return The latitude of the vertex.
      */
     double lat(long v) {
-        return 0;
+        validateVertex(v);
+        return nodeMap.get(v).lat;
+    }
+
+    double locLat(long v) {
+        validateLocation(v);
+        return locationMap.get(v).lat;
+    }
+
+    String getName(long v) {
+        validateLocation(v);
+        return locationMap.get(v).name;
+    }
+
+    void addNode(long id, double lon, double lat) {
+        Node node = new Node(lon, lat);
+        nodeMap.put(id, node);
+    }
+
+    void addLocation(long id, double lon, double lat, String name) {
+        Location loc = new Location(lon, lat, name);
+        locationMap.put(id, loc);
+    }
+
+    void addEdge(long v, long w) {
+        validateVertex(v);
+        validateVertex(w);
+        nodeMap.get(v).adj.add(w);
+        nodeMap.get(w).adj.add(v);
+    }
+
+    void addName(long id, double lon, double lat, String locationName) {
+        String cleanedName = cleanString(locationName);
+
+        if (!nameMap.containsKey(cleanedName)) {
+            nameMap.put(cleanedName, new LinkedList<>());
+        }
+        nameMap.get(cleanedName).add(id);
+        addLocation(id, lon, lat, locationName);
+        st.put(cleanedName, id);
+    }
+
+    void addWay(List<Long> way, String wayName) {
+        nodeMap.get(way.get(0)).wayNames.add(wayName);
+        for (int i = 1; i < way.size(); i++) {
+            addEdge(way.get(i - 1), way.get(i));
+            nodeMap.get(way.get(i)).wayNames.add(wayName);
+        }
+    }
+    Set<String> getWayNames(long v) {
+        Set<String> result = new HashSet<>();
+        for (String way : nodeMap.get(v).wayNames) {
+            result.add(way);
+        }
+        return result;
+    }
+    public List<String> keysWithPrefix(String prefix) {
+        List<String> result = new LinkedList<>();
+        for (String key : st.keysWithPrefix(cleanString(prefix))) {
+            Long id = nameMap.get(key).get(0);
+            String fullName = getName(id);
+            result.add(fullName);
+        }
+        return result;
+    }
+
+    public List<Long> getLocations(String locationName) {
+        List<Long> result = new LinkedList<>();
+        for (long v : nameMap.get(cleanString(locationName))) {
+            result.add(v);
+        }
+        return result;
     }
 
     private void validateVertex(long v) {
-        if (!nodes.containsKey(v)) {
+        if (!nodeMap.containsKey(v)) {
+            throw new IllegalArgumentException("Vertex " + v + " is not in the graph.");
+        }
+    }
 
+    private void validateLocation(long v) {
+        if (!locationMap.containsKey(v)) {
+            throw new IllegalArgumentException("Vertex " + v + " does not have a name.");
         }
     }
 
